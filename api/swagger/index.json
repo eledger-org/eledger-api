@@ -1,0 +1,38 @@
+{
+  "basePath" : "/",
+  "schemes" : [
+    "http",
+    "https"
+  ],
+  "paths" : {
+    "/database-version": {
+      "$ref": "./paths/DatabaseVersion.json"
+    },
+    "/ledger-entries": {
+      "$ref": "./paths/LedgerEntries.json"
+    }
+  },
+  "swagger" : "2.0",
+  "produces" : [
+    "application/json"
+  ],
+  "consumes" : [
+    "application/json"
+  ],
+  "info" : {
+    "version" : "0.0.1",
+    "title" : "Hello World App"
+  },
+  "host" : "192.168.63.13:10010",
+  "definitions" : {
+    "DatabaseVersionResponse": {
+      "$ref": "./definitions/DatabaseVersionResponse.json"
+    },
+    "LedgerEntriesResponse": {
+      "$ref": "./definitions/LedgerEntriesResponse.json"
+    },
+    "ErrorResponse": {
+      "$ref": "./definitions/ErrorResponse.json"
+    }
+  }
+}
