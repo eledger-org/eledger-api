@@ -8,7 +8,7 @@
   "license": "",
   "main": "app.js",
   "dependencies": {
-    "eledger": "git+ssh://git@github.com/eledger-org/eledger-web.git",
+    "eledger-web": "git+ssh://git@github.com/eledger-org/eledger-web.git",
     "express": "^4.12.3",
     "mysql": "^2.11.1",
     "node-android-logging": "^1.0.3",
