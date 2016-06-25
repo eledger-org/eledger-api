@@ -8,13 +8,16 @@
   "license": "",
   "main": "app.js",
   "dependencies": {
-    "eledger-web": "git+ssh://git@github.com/eledger-org/eledger-web.git",
+    "config": "^1.21.0",
+    "eledger": "github:eledger-org/eledger-web",
+    "eledger-web": "github:eledger-org/eledger-web",
     "express": "^4.12.3",
+    "morgan": "^1.7.0",
     "mysql": "^2.11.1",
     "node-android-logging": "^1.0.3",
     "q": "^1.4.1",
     "squel": "^5.3.2",
-    "swagger-express-mw": "0.0.x",
+    "swagger-express-middleware": "^1.0.0-alpha.12",
     "swagger-tools": ">0.10.0"
   },
   "devDependencies": {
@@ -22,9 +25,9 @@
     "supertest": "^1.0.0"
   },
   "scripts": {
-    "start": "nodemon $(which npm) run-script startup",
+    "full": "nodemon -i api/swagger/swagger.json -x ./bin/fullstart.sh",
+    "start": "nodemon -i api/swagger/swagger.json -x ./bin/startup.sh",
     "startprod": "NODE_ENV=production node app.js",
-    "startup": "./bin/startup.sh",
     "test": "swagger project test"
   }
 }

@@ -1,10 +1,12 @@
 "use strict";
 
 var _                 = require("underscore");
-var app               = require("express")();
+var express           = require("express");
 var conf              = require("config");
 var Log               = require("node-android-logging");
-var SwaggerExpress    = require("swagger-express-mw");
+
+/* app for static files (eledger-web) and swaggerApp for swagger api routes */
+var app               = express();
 
 _.mixin({
   coalesce: function() {
@@ -21,34 +23,53 @@ _.mixin({
 
 module.exports = app; // for testing
 
-var config = {
-  appRoot: __dirname // required config
-};
+/* Access and error logs */
+app.use(require("morgan")("combined"));
 
-SwaggerExpress.create(config, function(err, swaggerExpress) {
+/* */
+app.all("/*", function(req, res, next) {
+  if (req.path.startsWith("/api")) {
+    next();
+  } else {
+    res.sendFile("index.html", {
+      root: __dirname + "/node_modules/eledger-web"
+    });
+  }
+});
+
+/* Select a port */
+var port;
+
+if (conf.has("port")) {
+  port = conf.get("port");
+}
+
+/**
+ * Order prefers:
+ * - process.env.PORT
+ * - config/**.json#port
+ * - 4443
+ */
+port = process.env.PORT || port || 4443;
+
+require("swagger-express-middleware")(__dirname + "/api/swagger/swagger.json", app, function(err, mw) {
   if (err) {
     Log.E(err);
 
     throw err;
   }
 
-  // install middleware
-  swaggerExpress.register(app);
+  app.use(
+      mw.metadata(),
+      mw.CORS(),
+      mw.files(),
+      mw.parseRequest(),
+      mw.validateRequest(),
+      mw.mock()
+      );
 
-  var port;
-
-  if (conf.has("port")) {
-    port = conf.get("port");
-  }
-
-  /**
-   * Order prefers:
-   * - process.env.PORT
-   * - config/**.json#port
-   * - 4443
-   */
-  port = process.env.PORT || port || 4443;
   app.listen(port);
 
   Log.I("Listening on port " + port);
 });
+

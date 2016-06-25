@@ -2,6 +2,6 @@
 
 dir=$(dirname $0)
 
-if $dir/rebuild_yaml.sh; then
+if $dir/rebuild_json.sh; then
   node app.js
 fi
