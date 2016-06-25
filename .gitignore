@@ -33,4 +33,6 @@ node_modules
 # Runtime configuration for swagger app
 config/runtime.yaml
 
+# This is the generated yaml/json file
 api/swagger/swagger.yaml
+api/swagger/swagger.json

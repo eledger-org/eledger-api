@@ -1,11 +1,21 @@
 {
   "properties": {
-    "message": {
-      "type": "string"
+    "length": {
+      "description": "The size of the results array",
+      "type": "number"
+    },
+    "results": {
+      "description": "The result set",
+      "type": "array",
+      "items": {}
+    },
+    "count": {
+      "description": "The total row count available to the authenticated user",
+      "type": "number"
     }
   },
   "required": [
-    "message"
+    "results"
   ]
 }
 

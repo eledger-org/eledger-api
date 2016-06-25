@@ -2,6 +2,7 @@
 
 var LedgerEntries     = require("../../models/LedgerEntries");
 var Log               = require("node-android-logging");
+var Q                 = require("q");
 
 module.exports = {
   getLedgerEntries: getLedgerEntries
@@ -11,8 +12,18 @@ module.exports = {
  * getLedgerEntries retrieves the Ledger Entries from the database and returns them via the response.
  */
 function getLedgerEntries(request, response) {
-  LedgerEntries.selLedgerEntries().then(function(ledgerEntries) {
-    response.json(ledgerEntries);
+  LedgerEntries.selLedgerEntries(request.query.offset, request.query.limit).then(function(ledgerEntries) {
+    return LedgerEntries.count().then(function(count) {
+      return new Q.Promise(function(resolve) {
+        response.json({
+          "length": ledgerEntries.length,
+          "results": ledgerEntries,
+          "count": count[0].count
+        });
+
+        resolve();
+      });
+    });
   }).catch(function(rejection) {
     Log.E(rejection);
 

@@ -25,8 +25,8 @@
     "supertest": "^1.0.0"
   },
   "scripts": {
-    "full": "nodemon -i api/swagger/swagger.json -x ./bin/fullstart.sh",
-    "start": "nodemon -i api/swagger/swagger.json -x ./bin/startup.sh",
+    "full": "NODE_ENV=development ./bin/nodemon-fullstart.sh",
+    "start": "NODE_ENV=development ./bin/nodemon-startup.sh",
     "startprod": "NODE_ENV=production node app.js",
     "test": "swagger project test"
   }

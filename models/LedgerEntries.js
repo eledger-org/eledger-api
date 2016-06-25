@@ -7,7 +7,8 @@ var squel             = require("squel");
 const tName           = "LedgerEntries";
 
 module.exports = {
-  selLedgerEntries: selLedgerEntries
+  selLedgerEntries: selLedgerEntries,
+  count: count
 };
 
 /**
@@ -33,3 +34,14 @@ function selLedgerEntries(offset, limit) {
 
   return mysqlc.rawQueryPromise(query);
 }
+
+
+function count() {
+  let query = squel.select()
+    .field("COUNT(*)", "count")
+    .from(tName)
+    .toString();
+
+  return mysqlc.rawQueryPromise(query);
+}
+

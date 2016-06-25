@@ -1,10 +1,10 @@
 {
-  "basePath" : "/",
-  "schemes" : [
+  "basePath": "/api",
+  "schemes": [
     "http",
     "https"
   ],
-  "paths" : {
+  "paths": {
     "/database-version": {
       "$ref": "./paths/DatabaseVersion.json"
     },
@@ -12,19 +12,19 @@
       "$ref": "./paths/LedgerEntries.json"
     }
   },
-  "swagger" : "2.0",
-  "produces" : [
+  "swagger": "2.0",
+  "produces": [
     "application/json"
   ],
-  "consumes" : [
+  "consumes": [
     "application/json"
   ],
-  "info" : {
-    "version" : "0.0.1",
-    "title" : "Hello World App"
+  "info": {
+    "version": "0.1.0",
+    "title": "Eledger"
   },
-  "host" : "192.168.63.13:10010",
-  "definitions" : {
+  "host": "192.168.63.13:4443",
+  "definitions": {
     "DatabaseVersionResponse": {
       "$ref": "./definitions/DatabaseVersionResponse.json"
     },

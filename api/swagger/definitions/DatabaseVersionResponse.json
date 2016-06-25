@@ -1,11 +1,11 @@
 {
   "properties": {
-    "message": {
-      "type": "string"
+    "databaseVersion": {
+      "type": "number"
     }
   },
   "required": [
-    "message"
+    "databaseVersion"
   ]
 }
 
