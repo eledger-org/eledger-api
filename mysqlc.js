@@ -80,6 +80,15 @@ function connect() {
 connect();
 
 module.exports.rawQueryPromise = function(statement) {
+  let lType = typeof statement;
+  if (lType !== "string") {
+    let errorMessage = "Try passing a string instead of a[n] " + lType;
+
+    return new Q.Promise(function(resolve, reject) {
+      reject(errorMessage);
+    });
+  }
+
   Log.T("\n----" + statement + "\n");
 
   return new Q.Promise(function(resolve, reject) {
