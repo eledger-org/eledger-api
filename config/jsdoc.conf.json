@@ -1,0 +1,14 @@
+{
+  "plugins": [
+    "plugins/markdown"
+  ],
+  "source": {
+    "excludePattern":     "node_modules"
+  },
+  "templates": {
+    "linenums":           true,
+    "outputSourceFiles":  true,
+    "outputSourcePath":   true,
+    "theme":              "spacelab"
+  }
+}
