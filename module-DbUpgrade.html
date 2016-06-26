@@ -4,9 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>Documentation Module: app
-
-App serves as the entry point for starting the application.</title>
+	<title>Documentation Module: DbUpgrade</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -35,15 +33,7 @@ App serves as the entry point for starting the application.</title>
 			<li class="dropdown">
 				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="app%250A%250AApp%2520serves%2520as%2520the%2520entry%2520point%2520for%2520starting%2520the%2520application.module_.html">app
-
-App serves as the entry point for starting the application.</a></li><li><a href="DefaultModelActions%250A%250ADefaultModelActions%2520is%2520a%2520parent%2520class%2520to%2520each%2520model%2520which%2520provides%2520some%2520default%2520actions%2520and%250Adocumentation%2520for%2520building%2520new%2520models.module_.html">DefaultModelActions
-
-DefaultModelActions is a parent class to each model which provides some default actions and
-documentation for building new models.</a></li><li><a href="module-DatabaseVersion.html">DatabaseVersion</a></li><li><a href="module-DatabaseVersionController.html">DatabaseVersionController</a></li><li><a href="module-dbUpgrade.html">dbUpgrade</a></li><li><a href="module-LedgerEntries.html">LedgerEntries</a></li><li><a href="module-LedgerEntriesController.html">LedgerEntriesController</a></li><li><a href="module-UploadReadings.html">UploadReadings</a></li><li><a href="module-UploadReadingsController.html">UploadReadingsController</a></li><li><a href="module-Uploads.html">Uploads</a></li><li><a href="module-UploadsController.html">UploadsController</a></li><li><a href="module-Users.html">Users</a></li><li><a href="module-UsersController.html">UsersController</a></li><li><a href="mysqlc%250A%250Amysqlc%2520provides%2520an%2520interface%2520for%2520connecting%2520to%2520a%2520mysql%2520database%2520and%2520generating%2520Q.Promises%2520from%2520mysql%250Aqueries.module_.html">mysqlc
-
-mysqlc provides an interface for connecting to a mysql database and generating Q.Promises from mysql
-queries.</a></li>
+					<li><a href="module-App.html">App</a></li><li><a href="module-DatabaseVersion.html">DatabaseVersion</a></li><li><a href="module-DatabaseVersionController.html">DatabaseVersionController</a></li><li><a href="module-DbUpgrade.html">DbUpgrade</a></li><li><a href="module-DefaultModelActions.html">DefaultModelActions</a></li><li><a href="module-LedgerEntries.html">LedgerEntries</a></li><li><a href="module-LedgerEntriesController.html">LedgerEntriesController</a></li><li><a href="module-Mysqlc.html">Mysqlc</a></li><li><a href="module-UploadReadings.html">UploadReadings</a></li><li><a href="module-UploadReadingsController.html">UploadReadingsController</a></li><li><a href="module-Uploads.html">Uploads</a></li><li><a href="module-UploadsController.html">UploadsController</a></li><li><a href="module-Users.html">Users</a></li><li><a href="module-UsersController.html">UsersController</a></li>
 				</ul>
 			</li>
 			
@@ -73,9 +63,7 @@ queries.</a></li>
 		<div id="main">
 			
 
-	<h1 class="page-title">Module: app
-
-App serves as the entry point for starting the application.</h1>
+	<h1 class="page-title">Module: DbUpgrade</h1>
 <section>
 
 <header>
@@ -87,6 +75,10 @@ App serves as the entry point for starting the application.</h1>
     <div class="container-overview">
     
         
+            <div class="description"><p>DbUpgrade provides an interface for adding create and migrate statements and upgrading an existing
+database with the migration steps required to bring it current.</p>
+<p>The create statements can be used to generate the database from scratch.</p></div>
+        
 
         
 <dl class="details">
@@ -123,8 +115,8 @@ App serves as the entry point for starting the application.</h1>
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="app.js.html">app.js</a>,
-				 <a href="app.js.html#sunlight-1-line-1">line 1</a>
+				<a href="DbUpgrade.js.html">DbUpgrade.js</a>,
+				 <a href="DbUpgrade.js.html#sunlight-1-line-1">line 1</a>
 			</li>
 		</ul>
 	</dd>
@@ -153,27 +145,82 @@ App serves as the entry point for starting the application.</h1>
     
 
     
-        <h3 class="subsection-title">Members</h3>
+
+    
+        <h3 class="subsection-title">Methods</h3>
 
         <dl>
             
 <hr>
-<dt class="name" id="~port">
-    <h4><span class="type-signature">&lt;inner> </span>port<span class="type-signature"></span></h4>
-
+<dt>
+    <h4 class="name" id="~addCreate"><span class="type-signature">&lt;inner> </span>addCreate(query)</h4>
+    
     
 </dt>
 <dd>
+
     
     <div class="description">
-        <p>Order prefers:</p>
-<ul>
-<li>process.env.PORT</li>
-<li>config/**.json#port</li>
-<li>4443</li>
-</ul>
+        <p>addCreate builds the list of create statements necessary to create the database from scratch</p>
+<p>This is unordered because I'm not using foreign keys, so the order of creation doesn't matter.</p>
+<p>Foreign key constraints must be handled by the software instead.</p>
     </div>
     
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>query</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The query string for initially creating the model for a brand new database</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
     
 
@@ -212,8 +259,8 @@ App serves as the entry point for starting the application.</h1>
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="app.js.html">app.js</a>,
-				 <a href="app.js.html#sunlight-1-line-104">line 104</a>
+				<a href="DbUpgrade.js.html">DbUpgrade.js</a>,
+				 <a href="DbUpgrade.js.html#sunlight-1-line-28">line 28</a>
 			</li>
 		</ul>
 	</dd>
@@ -226,13 +273,192 @@ App serves as the entry point for starting the application.</h1>
 	
 </dl>
 
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="~addMigrate"><span class="type-signature">&lt;inner> </span>addMigrate(sortFloatIndex, query)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>addMigrate builds the list of migration statements necessary to upgrade a database from any version to
+the latest</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>sortFloatIndex</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The sortFloatIndex in the ordered list to execute this migration statement.
+                           Filling in this value requires the developer to manually search through all
+                           of the models ({APP_ROOT}/models/*) in order to locate the highest
+                           sortFloatIndex used so far.  The new call to this function should be one
+                           higher.  This can be a decimal, so that you can insert between items if need
+                           be, but not more granular than 0.001 (I am multiplying by 1000 and storing
+                           in a BIGINT UNSIGNED field.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>query</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The query string for initially creating the model for a brand new database</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="DbUpgrade.js.html">DbUpgrade.js</a>,
+				 <a href="DbUpgrade.js.html#sunlight-1-line-52">line 52</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 
     
 </dd>
 
         </dl>
-    
-
     
 
     
@@ -280,7 +506,7 @@ App serves as the entry point for starting the application.</h1>
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
 	
-		on 2016-06-26T14:01:50-07:00
+		on 2016-06-26T14:11:31-07:00
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>

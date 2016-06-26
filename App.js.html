@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>Documentation Source: app.js</title>
+	<title>Documentation Source: App.js</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -33,15 +33,7 @@
 			<li class="dropdown">
 				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
-					<li><a href="app%250A%250AApp%2520serves%2520as%2520the%2520entry%2520point%2520for%2520starting%2520the%2520application.module_.html">app
-
-App serves as the entry point for starting the application.</a></li><li><a href="DefaultModelActions%250A%250ADefaultModelActions%2520is%2520a%2520parent%2520class%2520to%2520each%2520model%2520which%2520provides%2520some%2520default%2520actions%2520and%250Adocumentation%2520for%2520building%2520new%2520models.module_.html">DefaultModelActions
-
-DefaultModelActions is a parent class to each model which provides some default actions and
-documentation for building new models.</a></li><li><a href="module-DatabaseVersion.html">DatabaseVersion</a></li><li><a href="module-DatabaseVersionController.html">DatabaseVersionController</a></li><li><a href="module-dbUpgrade.html">dbUpgrade</a></li><li><a href="module-LedgerEntries.html">LedgerEntries</a></li><li><a href="module-LedgerEntriesController.html">LedgerEntriesController</a></li><li><a href="module-UploadReadings.html">UploadReadings</a></li><li><a href="module-UploadReadingsController.html">UploadReadingsController</a></li><li><a href="module-Uploads.html">Uploads</a></li><li><a href="module-UploadsController.html">UploadsController</a></li><li><a href="module-Users.html">Users</a></li><li><a href="module-UsersController.html">UsersController</a></li><li><a href="mysqlc%250A%250Amysqlc%2520provides%2520an%2520interface%2520for%2520connecting%2520to%2520a%2520mysql%2520database%2520and%2520generating%2520Q.Promises%2520from%2520mysql%250Aqueries.module_.html">mysqlc
-
-mysqlc provides an interface for connecting to a mysql database and generating Q.Promises from mysql
-queries.</a></li>
+					<li><a href="module-App.html">App</a></li><li><a href="module-DatabaseVersion.html">DatabaseVersion</a></li><li><a href="module-DatabaseVersionController.html">DatabaseVersionController</a></li><li><a href="module-DbUpgrade.html">DbUpgrade</a></li><li><a href="module-DefaultModelActions.html">DefaultModelActions</a></li><li><a href="module-LedgerEntries.html">LedgerEntries</a></li><li><a href="module-LedgerEntriesController.html">LedgerEntriesController</a></li><li><a href="module-Mysqlc.html">Mysqlc</a></li><li><a href="module-UploadReadings.html">UploadReadings</a></li><li><a href="module-UploadReadingsController.html">UploadReadingsController</a></li><li><a href="module-Uploads.html">Uploads</a></li><li><a href="module-UploadsController.html">UploadsController</a></li><li><a href="module-Users.html">Users</a></li><li><a href="module-UsersController.html">UsersController</a></li>
 				</ul>
 			</li>
 			
@@ -71,29 +63,28 @@ queries.</a></li>
 		<div id="main">
 			
 
-		<h1 class="page-title">Source: app.js</h1>
+		<h1 class="page-title">Source: App.js</h1>
     
 <section>
     <article>
         <pre
             class="sunlight-highlight-javascript linenums">/**
- * @module app
+ * @module App
  *
+ * @description
  * App serves as the entry point for starting the application.
  */
 
 "use strict";
 
 var _                 = require("underscore");
-var express           = require("express");
+var express           = require("express")();
 var conf              = require("config");
 var fs                = require("fs");
 var Log               = require("node-android-logging");
-var mysqlc            = require("./mysqlc");
-var dbUpgrade         = require("./dbUpgrade");
+var Mysqlc            = require("./Mysqlc");
+var DbUpgrade         = require("./DbUpgrade");
 var swaggerInit       = require("swagger-tools").initializeMiddleware;
-
-var app               = express();
 
 _.mixin({
   coalesce: function() {
@@ -107,15 +98,15 @@ _.mixin({
   }
 });
 
-module.exports = app; // for testing
+module.exports = express; // for testing
 
 /* Access and error logs */
 if (process.env.APACHE_LOGS !== undefined) {
-  app.use(require("morgan")("combined"));
+  express.use(require("morgan")("combined"));
 }
 
 /* */
-app.all("/*", function(req, res, next) {
+express.all("/*", function(req, res, next) {
   let root = __dirname + "/node_modules/eledger-web";
 
   /* The default action is to send the index.html page and let Angular handle routing.
@@ -185,10 +176,10 @@ port = process.env.PORT || port || 4443;
  * Prepare DB
  */
 try {
-  mysqlc.connect();
-  dbUpgrade.initializeModels();
-  dbUpgrade.setupQueries();
-  dbUpgrade.upgrade();
+  Mysqlc.connect();
+  DbUpgrade.initializeModels();
+  DbUpgrade.setupQueries();
+  DbUpgrade.upgrade();
 } catch (ex) {
   Log.E(ex);
 
@@ -198,14 +189,14 @@ try {
 var sourceFile = "./api/swagger/index.json";
 
 swaggerInit(require(sourceFile), function (swaggerTools) {
-  app.listen(port);
+  express.listen(port);
 
-  app.use(swaggerTools.swaggerMetadata());
-  app.use(swaggerTools.swaggerValidator());
-  app.use(swaggerTools.swaggerRouter({
+  express.use(swaggerTools.swaggerMetadata());
+  express.use(swaggerTools.swaggerValidator());
+  express.use(swaggerTools.swaggerRouter({
     "controllers": "api/controllers"
   }));
-  app.use(swaggerTools.swaggerUi());
+  express.use(swaggerTools.swaggerUi());
 
   Log.I("Listening on port " + port);
 });
@@ -249,7 +240,7 @@ swaggerInit(require(sourceFile), function (swaggerTools) {
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
 	
-		on 2016-06-26T14:01:50-07:00
+		on 2016-06-26T14:11:31-07:00
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
