@@ -1,0 +1,32 @@
+{
+  "name": "Eledger-API",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Eledger API Project",
+  "keywords": [],
+  "author": "",
+  "license": "",
+  "main": "app.js",
+  "dependencies": {
+    "config": "^1.21.0",
+    "eledger": "github:eledger-org/eledger-web",
+    "eledger-web": "github:eledger-org/eledger-web",
+    "express": "^4.12.3",
+    "morgan": "^1.7.0",
+    "mysql": "^2.11.1",
+    "node-android-logging": "^1.0.3",
+    "q": "^1.4.1",
+    "squel": "^5.3.2",
+    "swagger-tools": "^0.10.1"
+  },
+  "devDependencies": {
+    "should": "^7.1.0",
+    "supertest": "^1.0.0"
+  },
+  "scripts": {
+    "full": "NODE_ENV=development ./bin/nodemon-fullstart.sh",
+    "start": "NODE_ENV=development ./bin/nodemon-startup.sh",
+    "startprod": "NODE_ENV=production node app.js",
+    "test": "swagger project test"
+  }
+}

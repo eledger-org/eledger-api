@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Documentation Source: app.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.spacelab.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top ">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">Documentation</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="global.html#addCreate">addCreate</a></li><li><a href="global.html#addMigrate">addMigrate</a></li><li><a href="global.html#count">count</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#getDatabaseVersion">getDatabaseVersion</a></li><li><a href="global.html#getLedgerEntries">getLedgerEntries</a></li><li><a href="global.html#getUploads">getUploads</a></li><li><a href="global.html#port">port</a></li><li><a href="global.html#select">select</a></li><li><a href="global.html#setupQueries">setupQueries</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+		<div class="col-sm-3 col-md-3">
+            <form class="navbar-form" role="search">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: app.js</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">"use strict";
+
+var _                 = require("underscore");
+var express           = require("express");
+var conf              = require("config");
+var fs                = require("fs");
+var Log               = require("node-android-logging");
+var mysqlc            = require("./mysqlc");
+var dbUpgrade         = require("./dbUpgrade");
+var swaggerInit       = require("swagger-tools").initializeMiddleware;
+
+var app               = express();
+
+_.mixin({
+  coalesce: function() {
+    for (let i = 0; i &lt; arguments.length; ++i) {
+      let arg = arguments[i];
+
+      if ((!_.isNaN(arg)) &amp;&amp; (!_.isNull(arg)) &amp;&amp; (!_.isUndefined(arg))) {
+        return arguments[i];
+      }
+    }
+  }
+});
+
+module.exports = app; // for testing
+
+/* Access and error logs */
+if (process.env.APACHE_LOGS !== undefined) {
+  app.use(require("morgan")("combined"));
+}
+
+/* */
+app.all("/*", function(req, res, next) {
+  let root = __dirname + "/node_modules/eledger-web";
+
+  /* The default action is to send the index.html page and let Angular handle routing.
+   *
+   * The other actions include:
+   * - Swagger API endpoint
+   * - Static file endpoint
+   */
+  var defaultAction = function() {
+    res.sendFile("index.html", {
+      root: root
+    });
+  };
+
+  /* The Swagger API endpoints all start with /api
+   */
+  if (req.path.startsWith("/api")) {
+    /** I really don't want the browser to cache these api calls. **/
+    res.setHeader("Cache-Control",  "no-cache");
+    res.setHeader("Pragma",         "no-cache");
+    res.setHeader("Expires",        0);
+    res.setHeader("Last-Modified", (new Date()).toUTCString());
+
+    /* Since we've established that this is not an angular endpoint, allow the next middleware to process.
+     */
+    next();
+  } else {
+    /* If the user is requesting one of the Angular routes, we'll send them the index.html file since Angular
+     * handles it from there.
+     *
+     * In order to avoid hard coding the Angular routes into this program as well, we look to see if a static
+     * file exists at the path they're requesting (within the root directory ./node_modules/eledger-web).
+     *
+     * If the file does exist at that path, they aren't requesting an API endpoint.
+     * If no file exists at that path, they are requesting an Angular2 API endpoint.
+     */
+    fs.lstat(root + req.path, function(err, stats) {
+      if (err) {
+        defaultAction();
+      } else {
+        if (stats.isFile()) {
+          res.sendFile(root + req.path);
+        } else {
+          defaultAction();
+        }
+      }
+    });
+  }
+});
+
+/* Select a port */
+var port;
+
+if (conf.has("port")) {
+  port = conf.get("port");
+}
+
+/**
+ * Order prefers:
+ * - process.env.PORT
+ * - config/**.json#port
+ * - 4443
+ */
+port = process.env.PORT || port || 4443;
+
+/*
+ * Prepare DB
+ */
+try {
+  mysqlc.connect();
+  dbUpgrade.initializeModels();
+  dbUpgrade.setupQueries();
+  dbUpgrade.upgrade();
+} catch (ex) {
+  Log.E(ex);
+
+  process.exit(1);
+}
+
+var sourceFile = "./api/swagger/index.json";
+
+swaggerInit(require(sourceFile), function (swaggerTools) {
+  app.listen(port);
+
+  app.use(swaggerTools.swaggerMetadata());
+  app.use(swaggerTools.swaggerValidator());
+  app.use(swaggerTools.swaggerRouter({
+    "controllers": "api/controllers"
+  }));
+  app.use(swaggerTools.swaggerUi());
+
+  Log.I("Listening on port " + port);
+});
+
+</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+<div class="modal fade" id="searchResults">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Search results</h4>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+<footer>
+
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
+	
+		on 2016-06-26T13:38:01-07:00
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+<script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			var id = $( heading ).attr( "id" );
+			return id && id.replace(/\~/g, '-inner-').replace(/\./g, '-static-') || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		SearcherDisplay.init();
+	});
+</script>
+
+</body>
+</html>
