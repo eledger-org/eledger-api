@@ -20,8 +20,10 @@
     "swagger-tools": "^0.10.1"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
     "ink-docstrap": "^1.2.1",
     "jsdoc": "^3.4.0",
+    "mocha": "^2.5.3",
     "should": "^7.1.0",
     "supertest": "^1.0.0"
   },
