@@ -4,7 +4,9 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>Documentation Source: api/controllers/LedgerEntriesController.js</title>
+	<title>Documentation Module: app
+
+App serves as the entry point for starting the application.</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -66,60 +68,179 @@ queries.</a></li>
 <div class="row">
 
 	
-	<div class="col-md-12">
+	<div class="col-md-8">
 	
 		<div id="main">
 			
 
-		<h1 class="page-title">Source: api/controllers/LedgerEntriesController.js</h1>
-    
+	<h1 class="page-title">Module: app
+
+App serves as the entry point for starting the application.</h1>
 <section>
-    <article>
-        <pre
-            class="sunlight-highlight-javascript linenums">/**
- * @module LedgerEntriesController
- */
 
-"use strict";
+<header>
+    
+</header>
 
-var LedgerEntries     = require("../../models/LedgerEntries");
-var Log               = require("node-android-logging");
-var Q                 = require("q");
 
-module.exports = {
-  getLedgerEntries: getLedgerEntries
-};
+<article>
+    <div class="container-overview">
+    
+        
 
-/**
- * getLedgerEntries retrieves the Ledger Entries from the database and returns them via the response.
- */
-function getLedgerEntries(request, response) {
-  LedgerEntries.select(request.query.offset, request.query.limit).then(function(ledgerEntries) {
-    return LedgerEntries.count().then(function(count) {
-      return new Q.Promise(function(resolve) {
-        response.json({
-          "length": ledgerEntries.length,
-          "results": ledgerEntries,
-          "count": count[0].count
-        });
+        
+<dl class="details">
+    
 
-        resolve();
-      });
-    });
-  }).catch(function(rejection) {
-    Log.E(rejection);
+	
 
-    response.status(500).json({
-      "result": "ERROR",
-      "message": "Unable to retrieve ledger entries"
-    });
-  });
-}
+	
 
-</pre>
-    </article>
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="app.js.html">app.js</a>,
+				 <a href="app.js.html#sunlight-1-line-1">line 1</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        <dl>
+            
+<hr>
+<dt class="name" id="~port">
+    <h4><span class="type-signature">&lt;inner> </span>port<span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Order prefers:</p>
+<ul>
+<li>process.env.PORT</li>
+<li>config/**.json#port</li>
+<li>4443</li>
+</ul>
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="app.js.html">app.js</a>,
+				 <a href="app.js.html#sunlight-1-line-104">line 104</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+
+    
+</article>
+
 </section>
-
 
 
 
@@ -129,6 +250,10 @@ function getLedgerEntries(request, response) {
 
 	<div class="clearfix"></div>
 
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
+		</div>
 	
 
 </div>

@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>Documentation Source: api/controllers/LedgerEntriesController.js</title>
+	<title>Documentation Source: models/UploadReadings.js</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -71,51 +71,81 @@ queries.</a></li>
 		<div id="main">
 			
 
-		<h1 class="page-title">Source: api/controllers/LedgerEntriesController.js</h1>
+		<h1 class="page-title">Source: models/UploadReadings.js</h1>
     
 <section>
     <article>
         <pre
             class="sunlight-highlight-javascript linenums">/**
- * @module LedgerEntriesController
+ * @module  UploadReadings
+ * @extends DefaultModelActions
  */
 
 "use strict";
 
-var LedgerEntries     = require("../../models/LedgerEntries");
-var Log               = require("node-android-logging");
-var Q                 = require("q");
+var defaultModel      = require("./DefaultModelActions");
 
-module.exports = {
-  getLedgerEntries: getLedgerEntries
-};
-
-/**
- * getLedgerEntries retrieves the Ledger Entries from the database and returns them via the response.
- */
-function getLedgerEntries(request, response) {
-  LedgerEntries.select(request.query.offset, request.query.limit).then(function(ledgerEntries) {
-    return LedgerEntries.count().then(function(count) {
-      return new Q.Promise(function(resolve) {
-        response.json({
-          "length": ledgerEntries.length,
-          "results": ledgerEntries,
-          "count": count[0].count
-        });
-
-        resolve();
-      });
-    });
-  }).catch(function(rejection) {
-    Log.E(rejection);
-
-    response.status(500).json({
-      "result": "ERROR",
-      "message": "Unable to retrieve ledger entries"
-    });
-  });
+for (var prop in defaultModel) {
+  module.exports[prop] = defaultModel[prop];
 }
 
+module.exports.tName = "UploadReadings";
+
+/************************************************************************************************************
+ * Initial Create Statements.
+ ***********************************************************************************************************/
+module.exports.initialCreates = [ `
+CREATE TABLE UploadReadings (
+  id                    BIGINT UNSIGNED   AUTO_INCREMENT,
+  uploadsId             BIGINT UNSIGNED   NOT NULL,
+  ocrParamsJson         VARCHAR(255)      NOT NULL,
+  dataJson              VARCHAR(60000)    NOT NULL,
+  createdDate           BIGINT UNSIGNED   NOT NULL,
+  createdBy             BIGINT UNSIGNED   NOT NULL,
+  modifiedDate          BIGINT UNSIGNED   DEFAULT NULL,
+  modifiedBy            BIGINT UNSIGNED   DEFAULT NULL,
+  deletedDate           BIGINT UNSIGNED   DEFAULT NULL,
+  deletedBy             BIGINT UNSIGNED   DEFAULT NULL,
+  PRIMARY KEY (id)
+);
+` ];
+
+/************************************************************************************************************
+ * Migrate Statements.
+ ***********************************************************************************************************/
+module.exports.migrates = [
+  {
+    sortFloatIndex: 4,
+    query: module.exports.initialCreates[0]
+  },
+  {
+    sortFloatIndex: 5,
+    query: `
+ALTER TABLE UploadReadings
+MODIFY COLUMN ocrParamsJson   JSON              NOT NULL,
+MODIFY COLUMN dataJson        JSON              NOT NULL;
+`
+  }
+];
+
+/************************************************************************************************************
+ * Final Create Statements.
+ ***********************************************************************************************************/
+module.exports.finalCreates = [ `
+CREATE TABLE UploadReadings (
+  id                    BIGINT UNSIGNED   AUTO_INCREMENT,
+  uploadsId             BIGINT UNSIGNED   NOT NULL,
+  ocrParamsJson         JSON              NOT NULL,
+  dataJson              JSON              NOT NULL,
+  createdDate           BIGINT UNSIGNED   NOT NULL,
+  createdBy             BIGINT UNSIGNED   NOT NULL,
+  modifiedDate          BIGINT UNSIGNED   DEFAULT NULL,
+  modifiedBy            BIGINT UNSIGNED   DEFAULT NULL,
+  deletedDate           BIGINT UNSIGNED   DEFAULT NULL,
+  deletedBy             BIGINT UNSIGNED   DEFAULT NULL,
+  PRIMARY KEY (id)
+);
+` ];
 </pre>
     </article>
 </section>

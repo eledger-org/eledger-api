@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>Documentation Source: api/controllers/LedgerEntriesController.js</title>
+	<title>Documentation Module: dbUpgrade</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -66,60 +66,415 @@ queries.</a></li>
 <div class="row">
 
 	
-	<div class="col-md-12">
+	<div class="col-md-8">
 	
 		<div id="main">
 			
 
-		<h1 class="page-title">Source: api/controllers/LedgerEntriesController.js</h1>
-    
+	<h1 class="page-title">Module: dbUpgrade</h1>
 <section>
-    <article>
-        <pre
-            class="sunlight-highlight-javascript linenums">/**
- * @module LedgerEntriesController
- */
 
-"use strict";
+<header>
+    
+</header>
 
-var LedgerEntries     = require("../../models/LedgerEntries");
-var Log               = require("node-android-logging");
-var Q                 = require("q");
 
-module.exports = {
-  getLedgerEntries: getLedgerEntries
-};
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>dbUpgrade provides an interface for adding create and migrate statements and upgrading an existing
+database with the migration steps required to bring it current.</p>
+<p>The create statements can be used to generate the database from scratch.</p></div>
+        
 
-/**
- * getLedgerEntries retrieves the Ledger Entries from the database and returns them via the response.
- */
-function getLedgerEntries(request, response) {
-  LedgerEntries.select(request.query.offset, request.query.limit).then(function(ledgerEntries) {
-    return LedgerEntries.count().then(function(count) {
-      return new Q.Promise(function(resolve) {
-        response.json({
-          "length": ledgerEntries.length,
-          "results": ledgerEntries,
-          "count": count[0].count
-        });
+        
+<dl class="details">
+    
 
-        resolve();
-      });
-    });
-  }).catch(function(rejection) {
-    Log.E(rejection);
+	
 
-    response.status(500).json({
-      "result": "ERROR",
-      "message": "Unable to retrieve ledger entries"
-    });
-  });
-}
+	
 
-</pre>
-    </article>
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="dbUpgrade.js.html">dbUpgrade.js</a>,
+				 <a href="dbUpgrade.js.html#sunlight-1-line-1">line 1</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<hr>
+<dt>
+    <h4 class="name" id="~addCreate"><span class="type-signature">&lt;inner> </span>addCreate(query)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>addCreate builds the list of create statements necessary to create the database from scratch</p>
+<p>This is unordered because I'm not using foreign keys, so the order of creation doesn't matter.</p>
+<p>Foreign key constraints must be handled by the software instead.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>query</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The query string for initially creating the model for a brand new database</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="dbUpgrade.js.html">dbUpgrade.js</a>,
+				 <a href="dbUpgrade.js.html#sunlight-1-line-28">line 28</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="~addMigrate"><span class="type-signature">&lt;inner> </span>addMigrate(sortFloatIndex, query)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>addMigrate builds the list of migration statements necessary to upgrade a database from any version to
+the latest</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>sortFloatIndex</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The sortFloatIndex in the ordered list to execute this migration statement.
+                           Filling in this value requires the developer to manually search through all
+                           of the models ({APP_ROOT}/models/*) in order to locate the highest
+                           sortFloatIndex used so far.  The new call to this function should be one
+                           higher.  This can be a decimal, so that you can insert between items if need
+                           be, but not more granular than 0.001 (I am multiplying by 1000 and storing
+                           in a BIGINT UNSIGNED field.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>query</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The query string for initially creating the model for a brand new database</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="dbUpgrade.js.html">dbUpgrade.js</a>,
+				 <a href="dbUpgrade.js.html#sunlight-1-line-52">line 52</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+</article>
+
 </section>
-
 
 
 
@@ -129,6 +484,10 @@ function getLedgerEntries(request, response) {
 
 	<div class="clearfix"></div>
 
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
+		</div>
 	
 
 </div>

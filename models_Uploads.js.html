@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>Documentation Source: api/controllers/LedgerEntriesController.js</title>
+	<title>Documentation Source: models/Uploads.js</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -71,51 +71,116 @@ queries.</a></li>
 		<div id="main">
 			
 
-		<h1 class="page-title">Source: api/controllers/LedgerEntriesController.js</h1>
+		<h1 class="page-title">Source: models/Uploads.js</h1>
     
 <section>
     <article>
         <pre
             class="sunlight-highlight-javascript linenums">/**
- * @module LedgerEntriesController
+ * @module  Uploads
+ * @extends DefaultModelActions
  */
 
 "use strict";
 
-var LedgerEntries     = require("../../models/LedgerEntries");
-var Log               = require("node-android-logging");
-var Q                 = require("q");
+var defaultModel      = require("./DefaultModelActions");
 
-module.exports = {
-  getLedgerEntries: getLedgerEntries
-};
-
-/**
- * getLedgerEntries retrieves the Ledger Entries from the database and returns them via the response.
- */
-function getLedgerEntries(request, response) {
-  LedgerEntries.select(request.query.offset, request.query.limit).then(function(ledgerEntries) {
-    return LedgerEntries.count().then(function(count) {
-      return new Q.Promise(function(resolve) {
-        response.json({
-          "length": ledgerEntries.length,
-          "results": ledgerEntries,
-          "count": count[0].count
-        });
-
-        resolve();
-      });
-    });
-  }).catch(function(rejection) {
-    Log.E(rejection);
-
-    response.status(500).json({
-      "result": "ERROR",
-      "message": "Unable to retrieve ledger entries"
-    });
-  });
+for (var prop in defaultModel) {
+  module.exports[prop] = defaultModel[prop];
 }
 
+module.exports.tName = "Uploads";
+
+/************************************************************************************************************
+ * Initial Create Statements.
+ ***********************************************************************************************************/
+module.exports.initialCreates = [ `
+CREATE TABLE uploads (
+  id                    BIGINT        NOT NULL AUTO_INCREMENT,
+  filename              VARCHAR(255)  NOT NULL,
+  uniqid                VARCHAR(255)  NOT NULL,
+  dt                    TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+  );
+` ];
+
+/************************************************************************************************************
+ * Migrate Statements.
+ ***********************************************************************************************************/
+module.exports.migrates = [
+  {
+    sortFloatIndex: 1,
+    query: module.exports.initialCreates[0]
+  },
+  {
+    sortFloatIndex: 2,
+    query: `
+ALTER   TABLE   uploads
+CHANGE  COLUMN  id
+  id                    BIGINT UNSIGNED   NOT NULL AUTO_INCREMENT;
+  `
+  },
+  {
+    sortFloatIndex: 6,
+    query: `
+RENAME  TABLE   uploads
+TO              Uploads
+    `
+  },
+  {
+    sortFloatIndex: 7,
+    query: `
+ALTER   TABLE   Uploads
+ADD COLUMN
+  serviceName           VARCHAR(255)      NOT NULL    AFTER id,
+ADD COLUMN
+  createdDate           BIGINT UNSIGNED   NOT NULL,
+ADD COLUMN
+  createdBy             BIGINT UNSIGNED   NOT NULL,
+ADD COLUMN
+  modifiedDate          BIGINT UNSIGNED   DEFAULT NULL,
+ADD COLUMN
+  modifiedBy            BIGINT UNSIGNED   DEFAULT NULL,
+ADD COLUMN
+  deletedDate           BIGINT UNSIGNED   DEFAULT NULL,
+ADD COLUMN
+  deletedBy             BIGINT UNSIGNED   DEFAULT NULL
+    `
+  },
+  {
+    sortFloatIndex: 8,
+    query: `
+UPDATE Uploads
+SET Uploads.createdDate = UNIX_TIMESTAMP(dt)
+    `
+  },
+  {
+    sortFloatIndex: 9,
+    query: `
+ALTER   TABLE   Uploads
+DROP    COLUMN  dt
+    `
+  }
+];
+
+/************************************************************************************************************
+ * Final Create Statements.
+ ***********************************************************************************************************/
+module.exports.finalCreates = [ `
+CREATE TABLE Uploads (
+  id                    BIGINT UNSIGNED   NOT NULL AUTO_INCREMENT,
+  serviceName           VARCHAR(255)      NOT NULL    AFTER id,
+  filename              VARCHAR(255)      NOT NULL,
+  uniqid                VARCHAR(255)      NOT NULL,
+  createdDate           BIGINT UNSIGNED   NOT NULL,
+  createdBy             BIGINT UNSIGNED   NOT NULL,
+  modifiedDate          BIGINT UNSIGNED   DEFAULT NULL,
+  modifiedBy            BIGINT UNSIGNED   DEFAULT NULL,
+  deletedDate           BIGINT UNSIGNED   DEFAULT NULL,
+  deletedBy             BIGINT UNSIGNED   DEFAULT NULL,
+  PRIMARY KEY (id)
+  );
+` ];
 </pre>
     </article>
 </section>
