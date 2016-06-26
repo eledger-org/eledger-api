@@ -1,4 +1,4 @@
 #!/bin/bash
 
-mocha --recursive
+./node_modules/mocha/bin/mocha --recursive
 
