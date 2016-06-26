@@ -29,6 +29,7 @@
     "full": "NODE_ENV=development ./bin/nodemon-fullstart.sh",
     "start": "NODE_ENV=development ./bin/nodemon-startup.sh",
     "startprod": "NODE_ENV=production node App.js",
-    "test": "swagger project test"
+    "test": "./bin/tests.sh",
+    "docs": "./bin/build_docs.sh && ./bin/publish_docs.sh"
   }
 }
