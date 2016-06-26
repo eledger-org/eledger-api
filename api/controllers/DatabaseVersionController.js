@@ -11,7 +11,7 @@ module.exports = {
  * getDatabaseVersion retrieves the Database Version from the database and returns it via the response.
  */
 function getDatabaseVersion(request, response) {
-  DatabaseVersion.selDatabaseVersion().then(function(databaseVersion) {
+  DatabaseVersion.select().then(function(databaseVersion) {
     response.json(databaseVersion);
   }).catch(function(rejection) {
     Log.E(rejection);

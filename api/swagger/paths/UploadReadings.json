@@ -19,7 +19,7 @@
     "responses": {
       "200": {
         "schema": {
-          "$ref": "../definitions/LedgerEntriesResponse.json"
+          "$ref": "../definitions/UploadReadingsResponse.json"
         },
         "description": "Success"
       },
@@ -30,9 +30,9 @@
         }
       }
     },
-    "operationId": "getLedgerEntries",
-    "description": "Returns the ledger entries"
+    "operationId": "get",
+    "description": "Returns the upload entries"
   },
-  "x-swagger-router-controller": "LedgerEntriesController"
+  "x-swagger-router-controller": "UploadReadings"
 }
 

@@ -6,18 +6,24 @@ for (var prop in defaultModel) {
   module.exports[prop] = defaultModel[prop];
 }
 
-module.exports.tName = "DatabaseVersion";
+module.exports.tName = "Users";
 
 /************************************************************************************************************
  * Initial Create Statements.
  ***********************************************************************************************************/
 module.exports.initialCreates = [ `
-CREATE TABLE DatabaseVersion (
-  databaseVersion       BIGINT UNSIGNED   NOT NULL
-);
-`,
-`
-INSERT INTO DatabaseVersion (databaseVersion) VALUES (0.5 * 1000);
+CREATE TABLE users (
+  id              BIGINT unsigned   AUTO_INCREMENT,
+  name            VARCHAR(255)      NOT NULL,
+  email           VARCHAR(255)      NOT NULL,
+  createdDate     BIGINT UNSIGNED   NOT NULL,
+  createdBy       BIGINT UNSIGNED   NOT NULL,
+  modifiedDate    BIGINT UNSIGNED   DEFAULT NULL,
+  modifiedBy      BIGINT UNSIGNED   DEFAULT NULL,
+  deletedDate     BIGINT UNSIGNED   DEFAULT NULL,
+  deletedBy       BIGINT UNSIGNED   DEFAULT NULL,
+  PRIMARY KEY (id)
+  );
 ` ];
 
 /************************************************************************************************************
@@ -25,12 +31,15 @@ INSERT INTO DatabaseVersion (databaseVersion) VALUES (0.5 * 1000);
  ***********************************************************************************************************/
 module.exports.migrates = [
   {
-    sortFloatIndex: 0,
+    sortFloatIndex: 3,
     query: module.exports.initialCreates[0]
   },
   {
-    sortFloatIndex: 0.5,
-    query: module.exports.initialCreates[1]
+    sortFloatIndex: 12,
+    query: `
+RENAME  TABLE   users
+TO              Users;
+    `
   }
 ];
 

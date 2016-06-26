@@ -12,7 +12,7 @@ module.exports = {
  * getLedgerEntries retrieves the Ledger Entries from the database and returns them via the response.
  */
 function getLedgerEntries(request, response) {
-  LedgerEntries.selLedgerEntries(request.query.offset, request.query.limit).then(function(ledgerEntries) {
+  LedgerEntries.select(request.query.offset, request.query.limit).then(function(ledgerEntries) {
     return LedgerEntries.count().then(function(count) {
       return new Q.Promise(function(resolve) {
         response.json({

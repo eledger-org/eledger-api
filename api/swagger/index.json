@@ -6,10 +6,19 @@
   ],
   "paths": {
     "/database-version": {
-      "$ref": "./paths/DatabaseVersion.json"
+      "$ref": "./api/swagger/paths/DatabaseVersion.json"
     },
     "/ledger-entries": {
-      "$ref": "./paths/LedgerEntries.json"
+      "$ref": "./api/swagger/paths/LedgerEntries.json"
+    },
+    "/users": {
+      "$ref": "./api/swagger/paths/Users.json"
+    },
+    "/upload-readings": {
+      "$ref": "./api/swagger/paths/UploadReadings.json"
+    },
+    "/uploads": {
+      "$ref": "./api/swagger/paths/Uploads.json"
     }
   },
   "swagger": "2.0",
@@ -26,13 +35,22 @@
   "host": "192.168.63.13:4443",
   "definitions": {
     "DatabaseVersionResponse": {
-      "$ref": "./definitions/DatabaseVersionResponse.json"
+      "$ref": "./api/swagger/definitions/DatabaseVersionResponse.json"
     },
     "LedgerEntriesResponse": {
-      "$ref": "./definitions/LedgerEntriesResponse.json"
+      "$ref": "./api/swagger/definitions/LedgerEntriesResponse.json"
+    },
+    "UploadReadingsResponse": {
+      "$ref": "./api/swagger/definitions/UploadReadingsResponse.json"
+    },
+    "UploadsResponse": {
+      "$ref": "./api/swagger/definitions/UploadsResponse.json"
+    },
+    "Users": {
+      "$ref": "./api/swagger/definitions/UsersResponse.json"
     },
     "ErrorResponse": {
-      "$ref": "./definitions/ErrorResponse.json"
+      "$ref": "./api/swagger/definitions/ErrorResponse.json"
     }
   }
 }

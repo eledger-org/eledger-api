@@ -5,7 +5,7 @@
 
 set -x
 
-rm api/swagger/swagger.json
+rm api/swagger/swagger.json || echo
 
-node_modules/swagger-cli/bin/swagger.js bundle api/swagger/index.json > api/swagger/swagger.json
+#node_modules/swagger-cli/bin/swagger.js bundle api/swagger/index.json > api/swagger/swagger.json
 

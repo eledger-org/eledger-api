@@ -11,6 +11,7 @@ nodemon \
   -w api \
   -w app.js \
   -w config \
+  -w dbUpgrade.js \
   -w models \
   -w mysqlc.js \
   -w package.json \

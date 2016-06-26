@@ -46,7 +46,7 @@ if (db.development === "development" || process.env.NODE_ENV === "development") 
   Log.I("Launching eledger as " + process.env.NODE_ENV);
 }
 
-function connect() {
+module.exports.connect = function() {
   let mysqlc = mysql.createConnection({
     password: db.password,
     host:     db.host,
@@ -58,7 +58,7 @@ function connect() {
   mysqlc.connect(function(err) {
     if (err) {
       Log.E(err);
-      setTimeout(connect, 2000);
+      setTimeout(require("./mysqlc").connect, 2000);
     }
   });
 
@@ -68,25 +68,21 @@ function connect() {
     if (err.code === "PROTOCOL_CONNECTION_LOST") {
       Log.W("Lost connection, trying to reconnect.");
 
-      connect();
+      require("./mysqlc").connect();
     } else {
       throw err;
     }
   });
 
   exports.mysqlc = mysqlc;
-}
-
-connect();
+};
 
 module.exports.rawQueryPromise = function(statement) {
   let lType = typeof statement;
   if (lType !== "string") {
     let errorMessage = "Try passing a string instead of a[n] " + lType;
 
-    return new Q.Promise(function(resolve, reject) {
-      reject(errorMessage);
-    });
+    throw new TypeError(errorMessage);
   }
 
   Log.T("\n----" + statement + "\n");

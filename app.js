@@ -5,6 +5,8 @@ var express           = require("express");
 var conf              = require("config");
 var fs                = require("fs");
 var Log               = require("node-android-logging");
+var mysqlc            = require("./mysqlc");
+var dbUpgrade         = require("./dbUpgrade");
 var swaggerInit       = require("swagger-tools").initializeMiddleware;
 
 var app               = express();
@@ -24,7 +26,9 @@ _.mixin({
 module.exports = app; // for testing
 
 /* Access and error logs */
-app.use(require("morgan")("combined"));
+if (process.env.APACHE_LOGS !== undefined) {
+  app.use(require("morgan")("combined"));
+}
 
 /* */
 app.all("/*", function(req, res, next) {
@@ -93,7 +97,23 @@ if (conf.has("port")) {
  */
 port = process.env.PORT || port || 4443;
 
-swaggerInit(require("./api/swagger/swagger.json"), function (swaggerTools) {
+/*
+ * Prepare DB
+ */
+try {
+  mysqlc.connect();
+  dbUpgrade.initializeModels();
+  dbUpgrade.setupQueries();
+  dbUpgrade.upgrade();
+} catch (ex) {
+  Log.E(ex);
+
+  process.exit(1);
+}
+
+var sourceFile = "./api/swagger/index.json";
+
+swaggerInit(require(sourceFile), function (swaggerTools) {
   app.listen(port);
 
   app.use(swaggerTools.swaggerMetadata());
