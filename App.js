@@ -1,21 +1,20 @@
 /**
- * @module app
+ * @module App
  *
+ * @description
  * App serves as the entry point for starting the application.
  */
 
 "use strict";
 
 var _                 = require("underscore");
-var express           = require("express");
+var express           = require("express")();
 var conf              = require("config");
 var fs                = require("fs");
 var Log               = require("node-android-logging");
-var mysqlc            = require("./mysqlc");
-var dbUpgrade         = require("./dbUpgrade");
+var Mysqlc            = require("./Mysqlc");
+var DbUpgrade         = require("./DbUpgrade");
 var swaggerInit       = require("swagger-tools").initializeMiddleware;
-
-var app               = express();
 
 _.mixin({
   coalesce: function() {
@@ -29,15 +28,15 @@ _.mixin({
   }
 });
 
-module.exports = app; // for testing
+module.exports = express; // for testing
 
 /* Access and error logs */
 if (process.env.APACHE_LOGS !== undefined) {
-  app.use(require("morgan")("combined"));
+  express.use(require("morgan")("combined"));
 }
 
 /* */
-app.all("/*", function(req, res, next) {
+express.all("/*", function(req, res, next) {
   let root = __dirname + "/node_modules/eledger-web";
 
   /* The default action is to send the index.html page and let Angular handle routing.
@@ -107,10 +106,10 @@ port = process.env.PORT || port || 4443;
  * Prepare DB
  */
 try {
-  mysqlc.connect();
-  dbUpgrade.initializeModels();
-  dbUpgrade.setupQueries();
-  dbUpgrade.upgrade();
+  Mysqlc.connect();
+  DbUpgrade.initializeModels();
+  DbUpgrade.setupQueries();
+  DbUpgrade.upgrade();
 } catch (ex) {
   Log.E(ex);
 
@@ -120,14 +119,14 @@ try {
 var sourceFile = "./api/swagger/index.json";
 
 swaggerInit(require(sourceFile), function (swaggerTools) {
-  app.listen(port);
+  express.listen(port);
 
-  app.use(swaggerTools.swaggerMetadata());
-  app.use(swaggerTools.swaggerValidator());
-  app.use(swaggerTools.swaggerRouter({
+  express.use(swaggerTools.swaggerMetadata());
+  express.use(swaggerTools.swaggerValidator());
+  express.use(swaggerTools.swaggerRouter({
     "controllers": "api/controllers"
   }));
-  app.use(swaggerTools.swaggerUi());
+  express.use(swaggerTools.swaggerUi());
 
   Log.I("Listening on port " + port);
 });

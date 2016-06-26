@@ -6,7 +6,7 @@
   "keywords": [],
   "author": "",
   "license": "",
-  "main": "app.js",
+  "main": "App.js",
   "dependencies": {
     "config": "^1.21.0",
     "eledger": "github:eledger-org/eledger-web",
@@ -28,7 +28,7 @@
   "scripts": {
     "full": "NODE_ENV=development ./bin/nodemon-fullstart.sh",
     "start": "NODE_ENV=development ./bin/nodemon-startup.sh",
-    "startprod": "NODE_ENV=production node app.js",
+    "startprod": "NODE_ENV=production node App.js",
     "test": "swagger project test"
   }
 }

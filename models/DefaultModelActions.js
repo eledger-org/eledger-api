@@ -1,6 +1,7 @@
 /**
  * @module DefaultModelActions
  *
+ * @description
  * DefaultModelActions is a parent class to each model which provides some default actions and
  * documentation for building new models.
  */
@@ -8,9 +9,9 @@
 "use strict";
 
 var _                 = require("underscore");
-var mysqlc            = require("../mysqlc");
+var Mysqlc            = require("../Mysqlc");
 var squel             = require("squel");
-var upgrade           = require("../dbUpgrade");
+var upgrade           = require("../DbUpgrade");
 
 var tName             = "";
 var DEFAULT_OFFSET    = 0;
@@ -52,7 +53,7 @@ function select(offset, limit) {
     */
     .toString();
 
-  return mysqlc.rawQueryPromise(query);
+  return Mysqlc.rawQueryPromise(query);
 }
 
 /**
@@ -74,7 +75,7 @@ function count() {
     .from(this.tName)
     .toString();
 
-  return mysqlc.rawQueryPromise(query);
+  return Mysqlc.rawQueryPromise(query);
 }
 
 /**

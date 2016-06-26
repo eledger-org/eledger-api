@@ -1,7 +1,8 @@
 /**
- * @module dbUpgrade
+ * @module DbUpgrade
  *
- * dbUpgrade provides an interface for adding create and migrate statements and upgrading an existing
+ * @description
+ * DbUpgrade provides an interface for adding create and migrate statements and upgrading an existing
  * database with the migration steps required to bring it current.
  *
  * The create statements can be used to generate the database from scratch.
@@ -11,7 +12,7 @@
 
 var _                 = require("underscore");
 var Log               = require("node-android-logging");
-var mysqlc            = require("./mysqlc");
+var Mysqlc            = require("./Mysqlc");
 var Q                 = require("q");
 var squel             = require("squel");
 
@@ -83,7 +84,7 @@ function upgrade() {
    *
    * The end of this promise block will be to resolve with an array of queries to execute.
    */
-  mysqlc.rawQueryPromise(query).then(function(result) {
+  Mysqlc.rawQueryPromise(query).then(function(result) {
     Log.I(result);
 
     if (result.length > 0) {
@@ -93,7 +94,7 @@ function upgrade() {
 
       Log.I(query);
 
-      return mysqlc.rawQueryPromise(query).then(function(result) {
+      return Mysqlc.rawQueryPromise(query).then(function(result) {
         return new Q.Promise(function(resolve) {
           Log.I(result);
           let dbVersion = parseInt(result[0].databaseVersion) / 1000;
@@ -126,7 +127,7 @@ function upgrade() {
 
     return Q.all(_.map(queries, function(queryItem) {
       Log.I(queryItem);
-      return mysqlc.rawQueryPromise(queryItem.query);
+      return Mysqlc.rawQueryPromise(queryItem.query);
     }));
 
   /* Let's print out the highest migrate sortFloatIndex so that the next developer can easily
@@ -152,7 +153,7 @@ function upgrade() {
       .set("databaseVersion", maxSortFloatIndex * 1000)
       .toString();
 
-    return mysqlc.rawQueryPromise(query);
+    return Mysqlc.rawQueryPromise(query);
 
   /* Any errors will end up as rejections that we can print out and handle how we wish.
    *

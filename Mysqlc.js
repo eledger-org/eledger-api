@@ -1,7 +1,8 @@
 /**
- * @module mysqlc
+ * @module Mysqlc
  *
- * mysqlc provides an interface for connecting to a mysql database and generating Q.Promises from mysql
+ * @description
+ * Mysqlc provides an interface for connecting to a mysql database and generating Q.Promises from mysql
  * queries.
  */
 
@@ -55,7 +56,7 @@ if (db.development === "development" || process.env.NODE_ENV === "development") 
 }
 
 module.exports.connect = function() {
-  let mysqlc = mysql.createConnection({
+  let Mysqlc = mysql.createConnection({
     password: db.password,
     host:     db.host,
     user:     db.user,
@@ -63,26 +64,26 @@ module.exports.connect = function() {
     debug:    db.debug
   });
 
-  mysqlc.connect(function(err) {
+  Mysqlc.connect(function(err) {
     if (err) {
       Log.E(err);
-      setTimeout(require("./mysqlc").connect, 2000);
+      setTimeout(require("./Mysqlc").connect, 2000);
     }
   });
 
-  mysqlc.on("error", function(err) {
+  Mysqlc.on("error", function(err) {
     Log.E(err);
 
     if (err.code === "PROTOCOL_CONNECTION_LOST") {
       Log.W("Lost connection, trying to reconnect.");
 
-      require("./mysqlc").connect();
+      require("./Mysqlc").connect();
     } else {
       throw err;
     }
   });
 
-  exports.mysqlc = mysqlc;
+  exports.Mysqlc = Mysqlc;
 };
 
 module.exports.rawQueryPromise = function(statement) {
@@ -96,7 +97,7 @@ module.exports.rawQueryPromise = function(statement) {
   Log.T("\n----" + statement + "\n");
 
   return new Q.Promise(function(resolve, reject) {
-    require("./mysqlc").mysqlc.query(statement, function(err, rows, fields) {
+    require("./Mysqlc").Mysqlc.query(statement, function(err, rows, fields) {
       if (err) {
         reject({
           "err": err,

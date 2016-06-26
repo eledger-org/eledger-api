@@ -9,11 +9,11 @@ nodemon \
   $(find ./eledger-web/app -name "*html" -exec echo -ne " "-w {} \;) \
   $(find ./eledger-web/app -name "*ts" -exec echo -ne " "-w {} \;) \
   -w api \
-  -w app.js \
+  -w App.js \
   -w config \
-  -w dbUpgrade.js \
+  -w DbUpgrade.js \
   -w models \
-  -w mysqlc.js \
+  -w Mysqlc.js \
   -w package.json \
   -i api/swagger/swagger.json \
   -e js,ts,component.ts,html,css,json \
