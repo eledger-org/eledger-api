@@ -1,3 +1,9 @@
+/**
+ * @module app
+ *
+ * App serves as the entry point for starting the application.
+ */
+
 "use strict";
 
 var _                 = require("underscore");

@@ -1,3 +1,8 @@
+/**
+ * @module  LedgerEntries
+ * @extends DefaultModelActions
+ */
+
 "use strict";
 
 var defaultModel      = require("./DefaultModelActions");

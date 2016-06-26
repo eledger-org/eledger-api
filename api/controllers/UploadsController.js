@@ -1,3 +1,7 @@
+/**
+ * @module UploadsController
+ */
+
 "use strict";
 
 var Uploads           = require("../../models/Uploads");

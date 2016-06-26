@@ -1,3 +1,7 @@
+/**
+ * @module UsersController
+ */
+
 "use strict";
 
 var Users             = require("../../models/Users");

@@ -1,3 +1,12 @@
+/**
+ * @module dbUpgrade
+ *
+ * dbUpgrade provides an interface for adding create and migrate statements and upgrading an existing
+ * database with the migration steps required to bring it current.
+ *
+ * The create statements can be used to generate the database from scratch.
+ */
+
 "use strict";
 
 var _                 = require("underscore");

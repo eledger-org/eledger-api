@@ -1,9 +1,13 @@
-/* eslint-disable no-unused-vars */
+/**
+ * @module DefaultModelActions
+ *
+ * DefaultModelActions is a parent class to each model which provides some default actions and
+ * documentation for building new models.
+ */
 
 "use strict";
 
 var _                 = require("underscore");
-var Log               = require("node-android-logging");
 var mysqlc            = require("../mysqlc");
 var squel             = require("squel");
 var upgrade           = require("../dbUpgrade");

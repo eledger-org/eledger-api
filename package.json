@@ -20,6 +20,8 @@
     "swagger-tools": "^0.10.1"
   },
   "devDependencies": {
+    "ink-docstrap": "^1.2.1",
+    "jsdoc": "^3.4.0",
     "should": "^7.1.0",
     "supertest": "^1.0.0"
   },

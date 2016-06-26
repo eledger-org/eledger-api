@@ -1,3 +1,11 @@
+/**
+ * @module mysqlc
+ *
+ * mysqlc provides an interface for connecting to a mysql database and generating Q.Promises from mysql
+ * queries.
+ */
+
+
 "use strict";
 
 var config            = require("config");

@@ -1,3 +1,8 @@
+/**
+ * @module  Users
+ * @extends DefaultModelActions
+ */
+
 "use strict";
 
 var defaultModel      = require("./DefaultModelActions");

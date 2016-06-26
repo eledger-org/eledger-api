@@ -1,3 +1,7 @@
+/**
+ * @module UploadReadingsController
+ */
+
 "use strict";
 
 var UploadReadings    = require("../../models/UploadReadings");

@@ -1,3 +1,7 @@
+/**
+ * @module DatabaseVersionController
+ */
+
 "use strict";
 
 var DatabaseVersion   = require("../../models/DatabaseVersion");

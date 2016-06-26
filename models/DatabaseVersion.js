@@ -1,3 +1,8 @@
+/**
+ * @module  DatabaseVersion
+ * @extends DefaultModelActions
+ */
+
 "use strict";
 
 var defaultModel      = require("./DefaultModelActions");

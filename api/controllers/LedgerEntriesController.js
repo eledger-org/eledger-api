@@ -1,3 +1,7 @@
+/**
+ * @module LedgerEntriesController
+ */
+
 "use strict";
 
 var LedgerEntries     = require("../../models/LedgerEntries");

@@ -1,3 +1,8 @@
+/**
+ * @module  Uploads
+ * @extends DefaultModelActions
+ */
+
 "use strict";
 
 var defaultModel      = require("./DefaultModelActions");
