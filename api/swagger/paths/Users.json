@@ -19,14 +19,14 @@
     "responses": {
       "200": {
         "schema": {
-          "$ref": "../definitions/UsersResponse.json"
+          "$ref": "../definitions/responses/Users.json"
         },
         "description": "Success"
       },
       "default": {
         "description": "Error",
         "schema": {
-          "$ref": "../definitions/ErrorResponse.json"
+          "$ref": "../definitions/responses/Error.json"
         }
       }
     },

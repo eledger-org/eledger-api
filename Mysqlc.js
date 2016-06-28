@@ -61,7 +61,9 @@ module.exports.connect = function() {
     host:     db.host,
     user:     db.user,
     database: db.name,
-    debug:    db.debug
+    debug:    db.debug,
+    supportBigNumbers: true,
+    multipleStatements: true
   });
 
   Mysqlc.connect(function(err) {
@@ -88,16 +90,26 @@ module.exports.connect = function() {
 
 module.exports.rawQueryPromise = function(statement) {
   let lType = typeof statement;
-  if (lType !== "string") {
-    let errorMessage = "Try passing a string instead of a[n] " + lType;
+  let queryString = statement;
+  let values = undefined;
 
-    throw new TypeError(errorMessage);
+  if (lType !== "string") {
+    if (statement !== undefined &&
+        statement.text !== undefined &&
+        statement.values !== undefined) {
+      values = statement.values;
+      queryString = statement.text;
+    } else {
+      let errorMessage = "Try passing a string instead of a[n] " + lType;
+
+      throw new TypeError(errorMessage);
+    }
   }
 
-  Log.T("\n----" + statement + "\n");
+  Log.T("\n----" + queryString + "\n");
 
   return new Q.Promise(function(resolve, reject) {
-    require("./Mysqlc").Mysqlc.query(statement, function(err, rows, fields) {
+    require("./Mysqlc").Mysqlc.query(queryString, values, function(err, rows, fields) {
       if (err) {
         reject({
           "err": err,

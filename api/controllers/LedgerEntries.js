@@ -9,13 +9,13 @@ var Log               = require("node-android-logging");
 var Q                 = require("q");
 
 module.exports = {
-  getLedgerEntries: getLedgerEntries
+  get: get
 };
 
 /**
- * getLedgerEntries retrieves the Ledger Entries from the database and returns them via the response.
+ * Retrieves the Ledger Entries from the database and returns them via the response.
  */
-function getLedgerEntries(request, response) {
+function get(request, response) {
   LedgerEntries.select(request.query.offset, request.query.limit).then(function(ledgerEntries) {
     return LedgerEntries.count().then(function(count) {
       return new Q.Promise(function(resolve) {

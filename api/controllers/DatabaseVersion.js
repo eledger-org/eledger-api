@@ -8,13 +8,13 @@ var DatabaseVersion   = require("../../models/DatabaseVersion");
 var Log               = require("node-android-logging");
 
 module.exports = {
-  getDatabaseVersion: getDatabaseVersion
+  get: get
 };
 
 /**
- * getDatabaseVersion retrieves the Database Version from the database and returns it via the response.
+ * Retrieves the Database Version from the database and returns it via the response.
  */
-function getDatabaseVersion(request, response) {
+function get(request, response) {
   DatabaseVersion.select().then(function(databaseVersion) {
     response.json(databaseVersion);
   }).catch(function(rejection) {

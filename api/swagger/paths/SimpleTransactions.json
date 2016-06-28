@@ -19,7 +19,7 @@
     "responses": {
       "200": {
         "schema": {
-          "$ref": "../definitions/responses/LedgerEntries.json"
+          "$ref": "../definitions/responses/SimpleTransactions.json"
         },
         "description": "Success"
       },
@@ -31,8 +31,8 @@
       }
     },
     "operationId": "get",
-    "description": "Returns the ledger entries"
+    "description": "Returns the simple transaction entries"
   },
-  "x-swagger-router-controller": "LedgerEntries"
+  "x-swagger-router-controller": "SimpleTransactions"
 }
 

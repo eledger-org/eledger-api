@@ -11,7 +11,7 @@
 var _                 = require("underscore");
 var Mysqlc            = require("../Mysqlc");
 var squel             = require("squel");
-var upgrade           = require("../DbUpgrade");
+var DbUpgrade         = require("../DbUpgrade");
 
 var tName             = "";
 var DEFAULT_OFFSET    = 0;
@@ -27,6 +27,14 @@ module.exports = {
   select: select,
   count: count
 };
+
+/**
+ * @method finalizeModel
+ *
+ * @description
+ * This is an optional function for executing extra queries on the data before finishing.  This function needs
+ * to make sure it doesn't process the data more than once by checking for itself ahead of time.
+ */
 
 /**
  * Selects from the database and returns a Q.Promise to return the results.
@@ -51,7 +59,7 @@ function select(offset, limit) {
     .offset(_(offset, 0).coalesce(offset, 0))
     .limit(_(limit, 10).coalesce(limit, 10))
     */
-    .toString();
+    .toParam();
 
   return Mysqlc.rawQueryPromise(query);
 }
@@ -73,7 +81,7 @@ function count() {
   let query = squel.select()
     .field("COUNT(*)", "count")
     .from(this.tName)
-    .toString();
+    .toParam();
 
   return Mysqlc.rawQueryPromise(query);
 }
@@ -111,10 +119,10 @@ function count() {
  */
 function setupQueries() {
   this.finalCreates.forEach(function(create) {
-    upgrade.addCreate(create);
+    DbUpgrade.addCreate(create);
   });
 
   this.migrates.forEach(function(migrate) {
-    upgrade.addMigrate(migrate.sortFloatIndex, migrate.query);
+    DbUpgrade.addMigrate(migrate.sortFloatIndex, migrate.query);
   });
 }

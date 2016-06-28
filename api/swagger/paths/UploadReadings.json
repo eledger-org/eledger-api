@@ -19,14 +19,14 @@
     "responses": {
       "200": {
         "schema": {
-          "$ref": "../definitions/UploadReadingsResponse.json"
+          "$ref": "../definitions/responses/UploadReadings.json"
         },
         "description": "Success"
       },
       "default": {
         "description": "Error",
         "schema": {
-          "$ref": "../definitions/ErrorResponse.json"
+          "$ref": "../definitions/responses/Error.json"
         }
       }
     },

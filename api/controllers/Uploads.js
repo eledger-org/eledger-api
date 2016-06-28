@@ -9,13 +9,13 @@ var Log               = require("node-android-logging");
 var Q                 = require("q");
 
 module.exports = {
-  getUploads: getUploads
+  get: get
 };
 
 /**
- * getUploads retrieves the Uploads from the database and returns them via the response.
+ * Retrieves the Uploads from the database and returns them via the response.
  */
-function getUploads(request, response) {
+function get(request, response) {
   Uploads.select(request.query.offset, request.query.limit).then(function(uploads) {
     return Uploads.count().then(function(count) {
       return new Q.Promise(function(resolve) {

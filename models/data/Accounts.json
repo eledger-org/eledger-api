@@ -1,0 +1,452 @@
+{
+  "accounts": [
+    {
+      "name": "Equity",
+      "short": "EQU",
+      "accounts": [
+        {
+          "name": "Opening Balances",
+          "short": "OPN"
+        }
+      ]
+    },
+    {
+      "name": "Expenses",
+      "short": "EXP",
+      "accounts": [
+        {
+          "name": "Clothing",
+          "short": "CLH",
+          "accounts": [
+            {
+              "name": "Personal",
+              "short": "PRS"
+            },
+            {
+              "name": "Professional",
+              "short": "PRF"
+            }
+          ]
+        },
+        {
+          "name": "Education",
+          "short": "EDU",
+          "accounts": [
+            {
+              "name": "Books",
+              "short": "BKS"
+            },
+            {
+              "name": "Fees",
+              "short": "FEE"
+            },
+            {
+              "name": "Field Trips",
+              "short": "TRP"
+            },
+            {
+              "name": "Student Loans",
+              "short": "LNS"
+            },
+            {
+              "name": "School Supplies",
+              "short": "SUP"
+            },
+            {
+              "name": "Tuition",
+              "short": "TUT"
+            }
+          ]
+        },
+        {
+          "name": "Financial",
+          "short": "FIN",
+          "accounts": [
+            {
+              "name": "Membership Fee",
+              "short": "SHP"
+            },
+            {
+              "name": "Loan Payment",
+              "short": "PMT"
+            },
+            {
+              "name": "Late Fee",
+              "short": "LAT"
+            },
+            {
+              "name": "Overdraft Fee",
+              "short": "OVR"
+            }
+          ]
+        },
+        {
+          "name": "Food",
+          "short": "FOO",
+          "accounts": [
+            {
+              "name": "Dining Out",
+              "short": "DIN"
+            },
+            {
+              "name": "Farmer's Market",
+              "short": "FRM"
+            },
+            {
+              "name": "Groceries",
+              "short": "GRC"
+            }
+          ]
+        },
+        {
+          "name": "Gifts",
+          "short": "GFT",
+          "accounts": [
+            {
+              "name": "Anniversary",
+              "short": "ANN"
+            },
+            {
+              "name": "Baby",
+              "short": "BBY"
+            },
+            {
+              "name": "Birthday",
+              "short": "BIR"
+            },
+            {
+              "name": "Wedding",
+              "short": "WED"
+            }
+          ]
+        },
+        {
+          "name": "Health",
+          "short": "HEA",
+          "accounts": [
+            {
+              "name": "Dental",
+              "short": "DEN"
+            },
+            {
+              "name": "Emergency Care",
+              "short": "SOS"
+            },
+            {
+              "name": "Gym Membership",
+              "short": "GYM"
+            },
+            {
+              "name": "Insurance",
+              "short": "INS",
+              "accounts": [
+                {
+                  "name": "Dental",
+                  "short": "DEN"
+                },
+                {
+                  "name": "Medical",
+                  "short": "MED"
+                },
+                {
+                  "name": "Term Life Insurance",
+                  "short": "TER"
+                },
+                {
+                  "name": "Vision",
+                  "short": "VIS"
+                },
+                {
+                  "name": "Whole Life Insurance",
+                  "short": "WHO"
+                }
+              ]
+            },
+            {
+              "name": "Medical",
+              "short": "MED"
+            },
+            {
+              "name": "Over the Counter",
+              "short": "OTC"
+            },
+            {
+              "name": "Prescription",
+              "short": "PIL"
+            },
+            {
+              "name": "Vision",
+              "short": "VIS"
+            }
+          ]
+        },
+        {
+          "name": "Hobbies",
+          "short": "HOB"
+        },
+        {
+          "name": "Home",
+          "short": "HOM",
+          "accounts": [
+            {
+              "name": "Decorating",
+              "short": "DEC"
+            },
+            {
+              "name": "Furniture",
+              "short": "FUR"
+            },
+            {
+              "name": "Home Improvement",
+              "short": "IMP"
+            },
+            {
+              "name": "Home Repair",
+              "short": "REP"
+            },
+            {
+              "name": "Homeowner's Association",
+              "short": "HOA"
+            },
+            {
+              "name": "Homeowner's / Renter's Insurance",
+              "short": "INS"
+            },
+            {
+              "name": "Mortgage",
+              "short": "MOR"
+            },
+            {
+              "name": "Rent",
+              "short": "REN"
+            },
+            {
+              "name": "Tools",
+              "short": "TOO"
+            }
+          ]
+        },
+        {
+          "name": "Pet",
+          "short": "PET",
+          "accounts": [
+            {
+              "name": "Food",
+              "short": "FOO"
+            },
+            {
+              "name": "Pet Insurance",
+              "short": "INS"
+            },
+            {
+              "name": "Supplies",
+              "short": "SUP"
+            },
+            {
+              "name": "Veterinary",
+              "short": "VET"
+            }
+          ]
+        },
+        {
+          "name": "Recreation",
+          "short": "REC"
+        },
+        {
+          "name": "Taxes",
+          "short": "TAX",
+          "accounts": [
+            {
+              "name": "Income",
+              "short": "INC"
+            },
+            {
+              "name": "Property",
+              "short": "PRO"
+            },
+            {
+              "name": "Sales",
+              "short": "SAL"
+            }
+          ]
+        },
+        {
+          "name": "Transportation",
+          "short": "TRN",
+          "accounts": [
+            {
+              "name": "Automotive",
+              "short": "CAR",
+              "accounts": [
+                {
+                  "name": "Car Payment",
+                  "short": "PMT"
+                },
+                {
+                  "name": "Fees",
+                  "short": "FEE"
+                },
+                {
+                  "name": "Fuel",
+                  "short": "GAS"
+                },
+                {
+                  "name": "Automotive Insurance",
+                  "short": "INS"
+                },
+                {
+                  "name": "Maintenance",
+                  "short": "MAI"
+                },
+                {
+                  "name": "Parking",
+                  "short": "SPT"
+                },
+                {
+                  "name": "Repair",
+                  "short": "REP"
+                }
+              ]
+            },
+            {
+              "name": "Public",
+              "short": "PUB",
+              "accounts": [
+                {
+                  "name": "Bus",
+                  "short": "BUS"
+                },
+                {
+                  "name": "Light Rail",
+                  "short": "RAI"
+                },
+                {
+                  "name": "Train",
+                  "short": "TRN"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Utilities",
+          "short": "UTI",
+          "accounts": [
+            {
+              "name": "Cell Phone",
+              "short": "CEL"
+            },
+            {
+              "name": "Electricity",
+              "short": "ELE"
+            },
+            {
+              "name": "Internet",
+              "short": "NET"
+            },
+            {
+              "name": "Natural Gas",
+              "short": "GAS"
+            },
+            {
+              "name": "Phone",
+              "short": "PHO"
+            },
+            {
+              "name": "Sewer",
+              "short": "SEW"
+            },
+            {
+              "name": "Solid Waste (Garbage)",
+              "short": "GAR"
+            },
+            {
+              "name": "Television",
+              "short": "T_V"
+            },
+            {
+              "name": "Water",
+              "short": "H2O"
+            }
+          ]
+        },
+        {
+          "name": "Vacation",
+          "short": "VAC",
+          "accounts": [
+            {
+              "name": "Adventure",
+              "short": "ADV"
+            },
+            {
+              "name": "Entertainment",
+              "short": "ENT"
+            },
+            {
+              "name": "Loding",
+              "short": "LDG"
+            },
+            {
+              "name": "Transportation",
+              "short": "TRN",
+              "accounts": [
+                {
+                  "name": "Airline",
+                  "short": "AIR"
+                },
+                {
+                  "name": "Boat",
+                  "short": "H20"
+                },
+                {
+                  "name": "Car",
+                  "short": "CAR"
+                },
+                {
+                  "name": "Public Transit",
+                  "short": "PUB"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Work",
+          "short": "WRK",
+          "accounts": [
+            {
+              "name": "Mileage",
+              "short": "MIL"
+            },
+            {
+              "name": "Supplies",
+              "short": "SUP"
+            },
+            {
+              "name": "Travel",
+              "short": "TRV",
+              "accounts": [
+                {
+                  "name": "Lodging",
+                  "short": "LDG"
+                },
+                {
+                  "name": "Airplane",
+                  "short": "AIR"
+                },
+                {
+                  "name": "Parking",
+                  "short": "PRK"
+                },
+                {
+                  "name": "Fuel",
+                  "short": "GAS"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -13,8 +13,9 @@ nodemon \
   -w models \
   -w Mysqlc.js \
   -w package.json \
+  -w test \
   -i api/swagger/swagger.json \
   -e js,ts,component.ts,html,css,json \
   -V \
-  -x bin/fullstart.sh
+  -x bin/tests.sh
 

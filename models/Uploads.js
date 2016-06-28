@@ -103,3 +103,4 @@ CREATE TABLE Uploads (
   PRIMARY KEY (id)
   );
 ` ];
+

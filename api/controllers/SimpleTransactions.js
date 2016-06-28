@@ -1,27 +1,24 @@
 /**
- * @module UsersController
+ * @module SimpleTransactionsController
  */
 
 "use strict";
 
-var Users             = require("../../models/Users");
 var Log               = require("node-android-logging");
 var Q                 = require("q");
+var SimpleTransactions = require("../../models/SimpleTransactions");
 
 module.exports = {
   get: get
 };
 
-/**
- * Retrieves the Users from the database and returns them via the response.
- */
 function get(request, response) {
-  Users.select(request.query.offset, request.query.limit).then(function(users) {
-    return Users.count().then(function(count) {
+  SimpleTransactions.select(request.query.offset, request.query.limit).then(function(simpleTransactions) {
+    return SimpleTransactions.count().then(function(count) {
       return new Q.Promise(function(resolve) {
         response.json({
-          "length": users.length,
-          "results": users,
+          "length": simpleTransactions.length,
+          "results": simpleTransactions,
           "count": count[0].count
         });
 
@@ -33,7 +30,7 @@ function get(request, response) {
 
     response.status(500).json({
       "result": "ERROR",
-      "message": "Unable to retrieve users"
+      "message": "Unable to retrieve ledger entries"
     });
   });
 }

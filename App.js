@@ -7,26 +7,22 @@
 
 "use strict";
 
-var _                 = require("underscore");
-var express           = require("express")();
 var conf              = require("config");
-var fs                = require("fs");
 var Log               = require("node-android-logging");
+
+if (conf.has("loglevel")) {
+  Log.setDefaults();
+  Log.enableStderr(conf.get("loglevel"));
+}
+
+var express           = require("express")();
+var fs                = require("fs");
 var Mysqlc            = require("./Mysqlc");
 var DbUpgrade         = require("./DbUpgrade");
 var swaggerInit       = require("swagger-tools").initializeMiddleware;
 
-_.mixin({
-  coalesce: function() {
-    for (let i = 0; i < arguments.length; ++i) {
-      let arg = arguments[i];
-
-      if ((!_.isNaN(arg)) && (!_.isNull(arg)) && (!_.isUndefined(arg))) {
-        return arguments[i];
-      }
-    }
-  }
-});
+// Mixes in _.coalesce
+require("./util/coalesce");
 
 module.exports = express; // for testing
 
@@ -109,7 +105,19 @@ try {
   Mysqlc.connect();
   DbUpgrade.initializeModels();
   DbUpgrade.setupQueries();
-  DbUpgrade.upgrade();
+  DbUpgrade.upgrade().then(function() {
+    DbUpgrade.finalizeModels();
+  }).catch(function(rejection) {
+    setTimeout(function() {
+      if (rejection !== undefined && rejection.stack !== undefined) {
+        throw rejection;
+      } else {
+        Log.E(rejection);
+
+        throw new Error(rejection);
+      }
+    });
+  });
 } catch (ex) {
   Log.E(ex);
 

@@ -11,6 +11,9 @@
     "/ledger-entries": {
       "$ref": "./api/swagger/paths/LedgerEntries.json"
     },
+    "/simple-transactions": {
+      "$ref": "./api/swagger/paths/SimpleTransactions.json"
+    },
     "/users": {
       "$ref": "./api/swagger/paths/Users.json"
     },
@@ -32,25 +35,5 @@
     "version": "0.1.0",
     "title": "Eledger"
   },
-  "host": "192.168.63.13:4443",
-  "definitions": {
-    "DatabaseVersionResponse": {
-      "$ref": "./api/swagger/definitions/DatabaseVersionResponse.json"
-    },
-    "LedgerEntriesResponse": {
-      "$ref": "./api/swagger/definitions/LedgerEntriesResponse.json"
-    },
-    "UploadReadingsResponse": {
-      "$ref": "./api/swagger/definitions/UploadReadingsResponse.json"
-    },
-    "UploadsResponse": {
-      "$ref": "./api/swagger/definitions/UploadsResponse.json"
-    },
-    "Users": {
-      "$ref": "./api/swagger/definitions/UsersResponse.json"
-    },
-    "ErrorResponse": {
-      "$ref": "./api/swagger/definitions/ErrorResponse.json"
-    }
-  }
+  "host": "192.168.63.13:4443"
 }

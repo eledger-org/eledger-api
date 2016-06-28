@@ -5,19 +5,19 @@
     "responses": {
       "200": {
         "schema": {
-          "$ref": "../definitions/DatabaseVersionResponse.json"
+          "$ref": "../definitions/responses/DatabaseVersion.json"
         },
         "description": "Success"
       },
       "default": {
         "description": "Error",
         "schema": {
-          "$ref": "../definitions/ErrorResponse.json"
+          "$ref": "../definitions/responses/Error.json"
         }
       }
     },
-    "operationId": "getDatabaseVersion",
+    "operationId": "get",
     "description": "Returns 'Hello' to the caller"
   },
-  "x-swagger-router-controller": "DatabaseVersionController"
+  "x-swagger-router-controller": "DatabaseVersion"
 }

@@ -84,13 +84,13 @@ function upgrade() {
    *
    * The end of this promise block will be to resolve with an array of queries to execute.
    */
-  Mysqlc.rawQueryPromise(query).then(function(result) {
+  return Mysqlc.rawQueryPromise(query).then(function(result) {
     Log.I(result);
 
     if (result.length > 0) {
       let query = squel.select()
         .from("DatabaseVersion")
-        .toString();
+        .toParam();
 
       Log.I(query);
 
@@ -151,21 +151,9 @@ function upgrade() {
     let query = squel.update()
       .table("DatabaseVersion")
       .set("databaseVersion", maxSortFloatIndex * 1000)
-      .toString();
+      .toParam();
 
     return Mysqlc.rawQueryPromise(query);
-
-  /* Any errors will end up as rejections that we can print out and handle how we wish.
-   *
-   * The setTimeout is necessary to prevent Q from absorbing the error that we want to throw to
-   * bring down the program upon a failure on the upgrade stack.
-   */
-  }).catch(function(rejection) {
-    Log.E(rejection);
-
-    setTimeout(function() {
-      throw new Error("Could not upgrade");
-    }, 0);
   });
 }
 
@@ -176,7 +164,7 @@ function validateModel(model) {
   } else if (model.migrates.length === 0) {
     reason = model.tName + ".migrates length is 0";
   } else {
-    module.exports.models.push(model);
+    module.exports.validatedModels.push(model);
 
     return;
   }
@@ -187,10 +175,13 @@ function validateModel(model) {
 }
 
 function initializeModels() {
-  var models = Array();
+  let DbUpgrade = require("./DbUpgrade");
+  let models = Array();
 
+  models.push("./models/Accounts");
   models.push("./models/DatabaseVersion");
   models.push("./models/LedgerEntries");
+  models.push("./models/SimpleTransactionsGlue");
   models.push("./models/UploadReadings");
   models.push("./models/Uploads");
   models.push("./models/Users");
@@ -198,14 +189,26 @@ function initializeModels() {
   models.forEach(function(modelFilePath) {
     let model = require(modelFilePath);
 
-    module.exports.models.push(model);
+    DbUpgrade.models.push(model);
   });
 }
 
 function setupQueries() {
-  module.exports.models.forEach(function(model) {
+  let DbUpgrade = require("./DbUpgrade");
+
+  DbUpgrade.models.forEach(function(model) {
     validateModel(model);
     model.setupQueries();
+  });
+}
+
+function finalizeModels() {
+  let DbUpgrade = require("./DbUpgrade");
+
+  DbUpgrade.validatedModels.forEach(function(model) {
+    if (model.finalizeModel !== undefined) {
+      model.finalizeModel();
+    }
   });
 }
 
@@ -214,5 +217,7 @@ module.exports.addMigrate             = addMigrate;
 module.exports.upgrade                = upgrade;
 module.exports.initializeModels       = initializeModels;
 module.exports.setupQueries           = setupQueries;
+module.exports.finalizeModels         = finalizeModels;
 module.exports.models                 = Array();
+module.exports.validatedModels        = Array();
 

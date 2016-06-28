@@ -66,11 +66,37 @@ module.exports.migrates = [
   {
     sortFloatIndex: 11,
     query: module.exports.initialCreates[1]
+  },
+  {
+    sortFloatIndex: 14,
+    query: `
+ALTER TABLE LedgerEntries
+CHANGE  COLUMN  account
+  account               BIGINT UNSIGNED   NOT NULL;
+`
   }
 ];
 
 /************************************************************************************************************
  * Final Create Statements.
  ***********************************************************************************************************/
-module.exports.finalCreates = module.exports.initialCreates.slice();
-
+module.exports.finalCreates = [ `
+CREATE TABLE LedgerEntries (
+  id                    BIGINT UNSIGNED   AUTO_INCREMENT,
+  generalLedgerDate     BIGINT UNSIGNED   NOT NULL,
+  description           VARCHAR(255)      NOT NULL,
+  account               BIGINT UNSIGNED   NOT NULL;
+  reconciled            VARCHAR(255)      DEFAULT "NO",
+  credit                BIGINT            DEFAULT 0,
+  debit                 BIGINT            DEFAULT 0,
+  createdDate           BIGINT UNSIGNED   NOT NULL,
+  createdBy             BIGINT UNSIGNED   NOT NULL,
+  modifiedDate          BIGINT UNSIGNED   DEFAULT NULL,
+  modifiedBy            BIGINT UNSIGNED   DEFAULT NULL,
+  deletedDate           BIGINT UNSIGNED   DEFAULT NULL,
+  deletedBy             BIGINT UNSIGNED   DEFAULT NULL,
+  PRIMARY KEY (id)
+)
+  `,
+  module.exports.initialCreates[1]
+];

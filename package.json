@@ -9,7 +9,6 @@
   "main": "App.js",
   "dependencies": {
     "config": "^1.21.0",
-    "eledger": "github:eledger-org/eledger-web",
     "eledger-web": "github:eledger-org/eledger-web",
     "express": "^4.12.3",
     "morgan": "^1.7.0",

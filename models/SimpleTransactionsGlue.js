@@ -1,5 +1,5 @@
 /**
- * @module  Users
+ * @module  Uploads
  * @extends DefaultModelActions
  */
 
@@ -11,16 +11,21 @@ for (var prop in defaultModel) {
   module.exports[prop] = defaultModel[prop];
 }
 
-module.exports.tName = "Users";
+module.exports.tName = "SimpleTransactionsGlue";
 
 /************************************************************************************************************
  * Initial Create Statements.
  ***********************************************************************************************************/
 module.exports.initialCreates = [ `
-CREATE TABLE users (
+CREATE TABLE SimpleTransactionsGlue (
   id                    BIGINT UNSIGNED   AUTO_INCREMENT,
-  name                  VARCHAR(255)      NOT NULL,
-  email                 VARCHAR(255)      NOT NULL,
+  uploadId              BIGINT UNSIGNED   DEFAULT 0,
+  originEntry           BIGINT UNSIGNED   NOT NULL,
+  destinationEntry      BIGINT UNSIGNED   NOT NULL,
+  transactionDate       BIGINT UNSIGNED   NOT NULL,
+  transactionNumber     BIGINT UNSIGNED   NOT NULL,
+  reconciled            VARCHAR(255)      DEFAULT "NO",
+  exchange              BIGINT            DEFAULT 0,
   createdDate           BIGINT UNSIGNED   NOT NULL,
   createdBy             BIGINT UNSIGNED   NOT NULL,
   modifiedDate          BIGINT UNSIGNED   DEFAULT NULL,
@@ -28,7 +33,7 @@ CREATE TABLE users (
   deletedDate           BIGINT UNSIGNED   DEFAULT NULL,
   deletedBy             BIGINT UNSIGNED   DEFAULT NULL,
   PRIMARY KEY (id)
-  );
+);
 ` ];
 
 /************************************************************************************************************
@@ -36,15 +41,8 @@ CREATE TABLE users (
  ***********************************************************************************************************/
 module.exports.migrates = [
   {
-    sortFloatIndex: 3,
+    sortFloatIndex: 15,
     query: module.exports.initialCreates[0]
-  },
-  {
-    sortFloatIndex: 12,
-    query: `
-RENAME  TABLE   users
-TO              Users;
-    `
   }
 ];
 

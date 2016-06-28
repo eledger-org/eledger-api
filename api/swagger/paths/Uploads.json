@@ -19,20 +19,20 @@
     "responses": {
       "200": {
         "schema": {
-          "$ref": "../definitions/UploadsResponse.json"
+          "$ref": "../definitions/responses/Uploads.json"
         },
         "description": "Success"
       },
       "default": {
         "description": "Error",
         "schema": {
-          "$ref": "../definitions/ErrorResponse.json"
+          "$ref": "../definitions/responses/Error.json"
         }
       }
     },
-    "operationId": "getUploads",
+    "operationId": "get",
     "description": "Returns the upload entries"
   },
-  "x-swagger-router-controller": "UploadsController"
+  "x-swagger-router-controller": "Uploads"
 }
 
