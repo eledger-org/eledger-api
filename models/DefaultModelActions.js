@@ -9,9 +9,10 @@
 "use strict";
 
 var _                 = require("underscore");
+var DbUpgrade         = require("../DbUpgrade");
+var Log               = require("node-android-logging");
 var Mysqlc            = require("../Mysqlc");
 var squel             = require("squel");
-var DbUpgrade         = require("../DbUpgrade");
 
 var tName             = "";
 var DEFAULT_OFFSET    = 0;
@@ -25,7 +26,8 @@ module.exports = {
   DEFAULT_OFFSET: DEFAULT_OFFSET,
   DEFAULT_LIMIT:  DEFAULT_LIMIT,
   select: select,
-  count: count
+  count: count,
+  sort: sort
 };
 
 /**
@@ -50,16 +52,17 @@ module.exports = {
  *   res.json(uploads);
  * });
  */
-function select(offset, limit) {
+function select(offset, limit, sortField, sortOrder) {
   let query = squel.select()
     .from(this.tName)
     .offset(_().coalesce(offset, this.DEFAULT_OFFSET))
-    .limit(_().coalesce(limit, this.DEFAULT_LIMIT))
-    /*
-    .offset(_(offset, 0).coalesce(offset, 0))
-    .limit(_(limit, 10).coalesce(limit, 10))
-    */
-    .toParam();
+    .limit(_().coalesce(limit, this.DEFAULT_LIMIT));
+
+  if (sortField !== undefined) {
+    query = this.sort(query, sortField, sortOrder).toParam();
+  } else {
+    query = query.toParam();
+  }
 
   return Mysqlc.rawQueryPromise(query);
 }
@@ -125,4 +128,22 @@ function setupQueries() {
   this.migrates.forEach(function(migrate) {
     DbUpgrade.addMigrate(migrate.sortFloatIndex, migrate.query);
   });
+}
+
+function sort(partialSquel, sortField, sortOrder) {
+  if (sortOrder == -1 || sortOrder == "-1") {
+    sortOrder = false;
+  } else if (sortOrder == 1 || sortOrder == "1") {
+    sortOrder = true;
+  } else if (sortOrder == "DESC") {
+    sortOrder = false;
+  } else if (sortOrder == "ASC") {
+    sortOrder = true;
+  } else {
+    Log.W("Assuming sortOrder = ASC");
+
+    sortOrder = true;
+  }
+
+  return partialSquel.order(sortField, sortOrder);
 }

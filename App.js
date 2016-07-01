@@ -59,6 +59,8 @@ express.all("/*", function(req, res, next) {
     /* Since we've established that this is not an angular endpoint, allow the next middleware to process.
      */
     next();
+  } else if (req.path.startsWith("/static-stored-files")) {
+    res.sendFile(__dirname + req.path);
   } else {
     /* If the user is requesting one of the Angular routes, we'll send them the index.html file since Angular
      * handles it from there.

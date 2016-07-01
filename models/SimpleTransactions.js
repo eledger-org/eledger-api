@@ -34,6 +34,7 @@ module.exports.select = function(offset, limit) {
     .field("origin.id", "OriginId")
     .field("getAccountString(originAcct.id)", "originShort")
     .field("getLongAccountString(originAcct.id)", "originLong")
+    .field("origin.description", "description")
     .field("destin.id", "DestinId")
     .field("getAccountString(destinAcct.id)", "destinShort")
     .field("getLongAccountString(destinAcct.id)", "destinLong")

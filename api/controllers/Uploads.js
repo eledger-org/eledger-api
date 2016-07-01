@@ -16,12 +16,17 @@ module.exports = {
  * Retrieves the Uploads from the database and returns them via the response.
  */
 function get(request, response) {
-  Uploads.select(request.query.offset, request.query.limit).then(function(uploads) {
+  Uploads.select(
+      request.query.offset,
+      request.query.limit,
+      request.query.sortField,
+      request.query.sortOrder)
+  .then(function(uploads) {
     return Uploads.count().then(function(count) {
       return new Q.Promise(function(resolve) {
         response.json({
           "length": uploads.length,
-          "results": uploads,
+          "results": uploads.map(addUploadLink),
           "count": count[0].count
         });
 
@@ -36,5 +41,16 @@ function get(request, response) {
       "message": "Unable to retrieve uploads"
     });
   });
+}
+
+function addUploadLink(result) {
+  if (result.serviceName === false) {
+    /* No alternate case yet */
+  } else {
+    /* Default case */
+    result.uploadLink = "/static-stored-files/" + result.filename;
+  }
+
+  return result;
 }
 
