@@ -8,6 +8,7 @@
   "license": "",
   "main": "App.js",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "config": "^1.21.0",
     "eledger-web": "github:eledger-org/eledger-web",
     "express": "^4.12.3",

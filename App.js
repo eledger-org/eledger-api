@@ -92,8 +92,8 @@ express.all("/*", function(req, res, next) {
 /* Select a port */
 var port;
 
-if (conf.has("port")) {
-  port = conf.get("port");
+if (conf.has("express.port")) {
+  port = conf.get("express.port");
 }
 
 /**

@@ -35,6 +35,8 @@ CREATE TABLE LedgerEntries (
 )
 `,
 `
+DROP FUNCTION IF EXISTS bigintCurrencyString;
+
 CREATE FUNCTION bigintCurrencyString(bigintInput BIGINT, decimalPlaces INT)
   RETURNS CHAR(20) DETERMINISTIC
   BEGIN
@@ -85,7 +87,7 @@ CREATE TABLE LedgerEntries (
   id                    BIGINT UNSIGNED   AUTO_INCREMENT,
   generalLedgerDate     BIGINT UNSIGNED   NOT NULL,
   description           VARCHAR(255)      NOT NULL,
-  account               BIGINT UNSIGNED   NOT NULL;
+  account               BIGINT UNSIGNED   NOT NULL,
   reconciled            VARCHAR(255)      DEFAULT "NO",
   credit                BIGINT            DEFAULT 0,
   debit                 BIGINT            DEFAULT 0,

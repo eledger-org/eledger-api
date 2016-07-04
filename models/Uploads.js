@@ -104,7 +104,7 @@ DROP    COLUMN  dt
 module.exports.finalCreates = [ `
 CREATE TABLE Uploads (
   id                    BIGINT UNSIGNED   NOT NULL AUTO_INCREMENT,
-  serviceName           VARCHAR(255)      NOT NULL    AFTER id,
+  serviceName           VARCHAR(255)      NOT NULL,
   filename              VARCHAR(255)      NOT NULL,
   uniqid                VARCHAR(255)      NOT NULL,
   createdDate           BIGINT UNSIGNED   NOT NULL,
