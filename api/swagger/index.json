@@ -5,6 +5,9 @@
     "https"
   ],
   "paths": {
+    "/accounts": {
+      "$ref": "./api/swagger/paths/Accounts.json"
+    },
     "/database-version": {
       "$ref": "./api/swagger/paths/DatabaseVersion.json"
     },
@@ -22,6 +25,9 @@
     },
     "/uploads": {
       "$ref": "./api/swagger/paths/Uploads.json"
+    },
+    "/uploads/unmapped": {
+      "$ref": "./api/swagger/paths/uploads/unmapped.json"
     }
   },
   "swagger": "2.0",

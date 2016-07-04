@@ -5,13 +5,24 @@
 
 "use strict";
 
+var _                 = require("underscore");
 var defaultModel      = require("./DefaultModelActions");
+var Mysqlc            = require("../Mysqlc");
+var Q                 = require("q");
 
 for (var prop in defaultModel) {
   module.exports[prop] = defaultModel[prop];
 }
 
 module.exports.tName = "SimpleTransactionsGlue";
+
+module.exports.finalizeModel = function() {
+  var SimpleTransactionsGlue = require("./SimpleTransactionsGlue");
+
+  return Q.all(_.map(views, function(view) {
+    return Mysqlc.rawQueryPromise(view);
+  }));
+};
 
 /************************************************************************************************************
  * Initial Create Statements.
@@ -23,7 +34,7 @@ CREATE TABLE SimpleTransactionsGlue (
   originEntry           BIGINT UNSIGNED   NOT NULL,
   destinationEntry      BIGINT UNSIGNED   NOT NULL,
   transactionDate       BIGINT UNSIGNED   NOT NULL,
-  transactionNumber     BIGINT UNSIGNED   NOT NULL,
+  transactionNumber     BIGINT UNSIGNED   DEFAULT NULL,
   reconciled            VARCHAR(255)      DEFAULT "NO",
   exchange              BIGINT            DEFAULT 0,
   createdDate           BIGINT UNSIGNED   NOT NULL,
@@ -34,6 +45,34 @@ CREATE TABLE SimpleTransactionsGlue (
   deletedBy             BIGINT UNSIGNED   DEFAULT NULL,
   PRIMARY KEY (id)
 );
+` ];
+
+var views = [ `
+CREATE OR REPLACE VIEW SimpleTransactions AS
+SELECT
+  SimpleTransactionsGlue.id                 AS id,
+  SimpleTransactionsGlue.uploadId           AS uploadId,
+  SimpleTransactionsGlue.transactionDate    AS date,
+  SimpleTransactionsGlue.transactionNumber  AS number,
+  SimpleTransactionsGlue.reconciled         AS reconciled,
+  SimpleTransactionsGlue.exchange           AS exchange,
+  origin.id                                 AS OriginId,
+  originAcct.accountShortName               AS originShort,
+  originAcct.accountName                    AS originLong,
+  destin.id                                 AS DestinId,
+  destinAcct.accountShortName               AS destinShort,
+  destinAcct.accountName                    AS destinLong,
+FROM
+  SimpleTransactionsGlue
+LEFT JOIN
+  LedgerEntries AS origin ON origin.id = originEntry
+LEFT JOIN
+  LedgerEntries AS destin ON destin.id = destinEntry
+LEFT JOIN
+  Accounts AS originAcct ON originAcct.id = origin.account
+LEFT JOIN
+  Accounts AS destinAcct ON destinAcct.id = destin.account
+;
 ` ];
 
 /************************************************************************************************************

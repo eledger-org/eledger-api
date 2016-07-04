@@ -9,7 +9,8 @@ var Log               = require("node-android-logging");
 var Q                 = require("q");
 
 module.exports = {
-  get: get
+  get: get,
+  getUnmapped: getUnmapped
 };
 
 /**
@@ -33,13 +34,32 @@ function get(request, response) {
         resolve();
       });
     });
-  }).catch(function(rejection) {
-    Log.E(rejection);
+  }).catch(function(e) {
+    defaultErrorHandler(response, e);
+  });
+}
 
-    response.status(500).json({
-      "result": "ERROR",
-      "message": "Unable to retrieve uploads"
+function getUnmapped(request, response) {
+  Uploads.getUnmapped().then(function(uploads) {
+    return new Q.Promise(function(resolve) {
+      response.json({
+        "length": uploads.length,
+        "results": uploads.map(addUploadLink)
+      });
+
+      resolve();
     });
+  }).catch(function(e) {
+    defaultErrorHandler(response, e);
+  });
+}
+
+function defaultErrorHandler(response, rejection) {
+  Log.E(rejection);
+
+  response.status(500).json({
+    "result": "ERROR",
+    "message": "Unable to retrieve uploads"
   });
 }
 

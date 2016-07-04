@@ -26,6 +26,8 @@ module.exports = {
   DEFAULT_OFFSET: DEFAULT_OFFSET,
   DEFAULT_LIMIT:  DEFAULT_LIMIT,
   select: select,
+  post: post,
+  postBody: postBody,
   count: count,
   sort: sort
 };
@@ -63,6 +65,24 @@ function select(offset, limit, sortField, sortOrder) {
   } else {
     query = query.toParam();
   }
+
+  return Mysqlc.rawQueryPromise(query);
+}
+
+function post(request) {
+  return this.postBody(request.body);
+}
+
+function postBody(body) {
+  let query = squel.insert()
+    .into(this.tName)
+    .setFieldsRows(body.results.map(function(result) {
+      result.createdBy = _().coalesce(result.createdBy, 0);
+      result.createdDate = _().coalesce(result.createdDate, (new Date).getTime() / 1000);
+
+      return result;
+    }))
+    .toParam();
 
   return Mysqlc.rawQueryPromise(query);
 }

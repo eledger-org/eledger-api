@@ -19,7 +19,7 @@
     "responses": {
       "200": {
         "schema": {
-          "$ref": "../definitions/responses/SimpleTransactions.json"
+          "$ref": "../definitions/responses/Accounts.json"
         },
         "description": "Success"
       },
@@ -31,16 +31,16 @@
       }
     },
     "operationId": "get",
-    "description": "Returns the simple transaction entries"
+    "description": "Returns the accounts"
   },
   "post": {
     "parameters": [],
     "responses": {
       "200": {
         "schema": {
-          "$ref": "../definitions/responses/SimpleTransactions.json"
+          "$ref": "../definitions/responses/Accounts.json"
         },
-        "description": "Success"
+        "description": "success"
       },
       "default": {
         "description": "Error",
@@ -50,8 +50,8 @@
       }
     },
     "operationId": "post",
-    "description": "Returns the posted simple transaction entry"
+    "description": "Returns the posted account"
   },
-  "x-swagger-router-controller": "SimpleTransactions"
+  "x-swagger-router-controller": "Accounts"
 }
 

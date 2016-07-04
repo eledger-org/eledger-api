@@ -8,6 +8,7 @@
 var _                 = require("underscore");
 var defaultModel      = require("./DefaultModelActions");
 var Log               = require("node-android-logging");
+var Mysqlc            = require("../Mysqlc");
 var Q                 = require("q");
 var squel             = require("squel");
 
@@ -16,6 +17,7 @@ for (var prop in defaultModel) {
 }
 
 module.exports.tName = "Accounts";
+module.exports.DEFAULT_LIMIT = 1000;
 
 module.exports.finalizeModel = function() {
   var Accounts = require("./Accounts");
@@ -91,6 +93,30 @@ module.exports.buildAccounts = function(account, parentId) {
   }
 };
 
+module.exports.select = function(offset, limit) {
+  var Accounts = require("./Accounts");
+
+  let query = squel.select().from(Accounts.tName)
+    .field("id")
+    .field("parentAccount")
+    .field("accountsStyleConfig")
+    .field("accountName")
+    .field("getLongAccountString(id)", "fullLongAccountName")
+    .field("accountShortName")
+    .field("getAccountString(id)", "fullShortAccountName")
+    .field("createdDate")
+    .field("createdBy")
+    .field("modifiedDate")
+    .field("modifiedBy")
+    .field("deletedDate")
+    .field("deletedBy")
+    .offset(_().coalesce(offset, this.DEFAULT_OFFSET))
+    .limit(_().coalesce(limit, this.DEFAULT_LIMIT))
+    .order("fullLongAccountName")
+    .toParam();
+
+  return Mysqlc.rawQueryPromise(query);
+};
 
 var storedProcs = [ `
 DROP FUNCTION IF EXISTS getAccountString;

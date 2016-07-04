@@ -1,0 +1,38 @@
+{
+  "get": {
+    "parameters": [
+      {
+        "name": "limit",
+        "required": false,
+        "in": "query",
+        "type": "number",
+        "description": "The total number of entries requested"
+      },
+      {
+        "name": "offset",
+        "required": false,
+        "in": "query",
+        "type": "number",
+        "description": "The offset to fetch entries from in the query"
+      }
+    ],
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "../../definitions/responses/Uploads.json"
+        },
+        "description": "Success"
+      },
+      "default": {
+        "description": "Error",
+        "schema": {
+          "$ref": "../../definitions/responses/Error.json"
+        }
+      }
+    },
+    "operationId": "getUnmapped",
+    "description": "Returns an unmapped upload entry"
+  },
+  "x-swagger-router-controller": "Uploads"
+}
+

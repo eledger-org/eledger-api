@@ -1,25 +1,28 @@
 /**
- * @module SimpleTransactionsController
+ * @module AccountsController
  */
 
 "use strict";
 
+var Accounts          = require("../../models/Accounts");
 var Log               = require("node-android-logging");
 var Q                 = require("q");
-var SimpleTransactions = require("../../models/SimpleTransactions");
 
 module.exports = {
   get: get,
   post: post
 };
 
+/**
+ * Retrieves the Accounts from the database and returns them via the response.
+ */
 function get(request, response) {
-  SimpleTransactions.select(request.query.offset, request.query.limit).then(function(simpleTransactions) {
-    return SimpleTransactions.count().then(function(count) {
+  Accounts.select(request.query.offset, request.query.limit).then(function(accounts) {
+    return Accounts.count().then(function(count) {
       return new Q.Promise(function(resolve) {
         response.json({
-          "length": simpleTransactions.length,
-          "results": simpleTransactions,
+          "length": accounts.length,
+          "results": accounts,
           "count": count[0].count
         });
 
@@ -31,7 +34,7 @@ function get(request, response) {
 
     response.status(500).json({
       "result": "ERROR",
-      "message": "Unable to retrieve ledger entries"
+      "message": "Unable to retrieve accounts"
     });
   });
 }
@@ -39,7 +42,7 @@ function get(request, response) {
 function post(request, response) {
   Log.I(request.body);
 
-  SimpleTransactions.post(request).then(function(result) {
+  Accounts.post(request).then(function(result) {
     response.status(200).json({
       "result": "OK",
       "results": result

@@ -7,6 +7,7 @@
 
 "use strict";
 
+var bodyParser        = require("body-parser");
 var conf              = require("config");
 var Log               = require("node-android-logging");
 
@@ -30,6 +31,9 @@ module.exports = express; // for testing
 if (process.env.APACHE_LOGS !== undefined) {
   express.use(require("morgan")("combined"));
 }
+
+express.use(bodyParser.json());
+express.use(bodyParser.urlencoded({ extended: true }));
 
 /* */
 express.all("/*", function(req, res, next) {

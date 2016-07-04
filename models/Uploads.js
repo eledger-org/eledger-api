@@ -6,12 +6,25 @@
 "use strict";
 
 var defaultModel      = require("./DefaultModelActions");
+var Mysqlc            = require("../Mysqlc");
+var squel             = require("squel");
 
 for (var prop in defaultModel) {
   module.exports[prop] = defaultModel[prop];
 }
 
 module.exports.tName = "Uploads";
+
+module.exports.getUnmapped = function() {
+  let STG = require("./SimpleTransactionsGlue");
+  let query = squel.select()
+    .from(this.tName)
+    .where("id NOT IN ?", squel.select().field("uploadId").from(STG.tName))
+    .limit(1)
+    .toParam();
+
+  return Mysqlc.rawQueryPromise(query);
+};
 
 /************************************************************************************************************
  * Initial Create Statements.
