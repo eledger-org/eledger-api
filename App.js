@@ -77,14 +77,20 @@ express.all("/*", function(req, res, next) {
      * If no file exists at that path, they are requesting an Angular2 API endpoint.
      */
     fs.lstat(root + req.path, function(err, stats) {
-      if (err) {
-        defaultAction();
+      if (err || !stats.isFile()) {
+        fs.lstat(__dirname + req.path, function(err, stats) {
+          if (err || ! stats.isFile()) {
+            defaultAction();
+          } else {
+            if (req.path.startsWith("/node_modules")) {
+              res.sendFile(__dirname + req.path);
+            } else {
+              defaultAction();
+            }
+          }
+        });
       } else {
-        if (stats.isFile()) {
-          res.sendFile(root + req.path);
-        } else {
-          defaultAction();
-        }
+        res.sendFile(root + req.path);
       }
     });
   }

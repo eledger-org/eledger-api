@@ -46,3 +46,5 @@ api/swagger/swagger.json
 # This is where the uploads go
 static-stored-files
 
+favicon.ico
+
