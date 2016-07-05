@@ -1,11 +1,11 @@
 /**
- * @module SimpleLedgers
+ * @module SimpleTransactions
  *
  * @description
  * This helper module serves to aggregate data from LedgerEntries and Uploads models and provide a
- * single interface for getting their joined data and joining it into a combined SimpleLedger object.
+ * single interface for getting their joined data and joining it into a combined SimpleTransaction object.
  *
- * Conceptually, the SimpleLedger object is something like this:
+ * Conceptually, the SimpleTransaction object is something like this:
  *  {
  *    ledgerEntries: [],
  *    uploads:       []

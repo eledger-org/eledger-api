@@ -13,6 +13,7 @@ var Log               = require("node-android-logging");
 
 if (conf.has("loglevel")) {
   Log.setDefaults();
+  Log.disableStdout();
   Log.enableStderr(conf.get("loglevel"));
 }
 

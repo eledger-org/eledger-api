@@ -8,6 +8,9 @@
     "/accounts": {
       "$ref": "./api/swagger/paths/Accounts.json"
     },
+    "/complex-transactions": {
+      "$ref": "./api/swagger/paths/ComplexTransactions.json"
+    },
     "/database-version": {
       "$ref": "./api/swagger/paths/DatabaseVersion.json"
     },

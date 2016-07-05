@@ -1,5 +1,5 @@
 /**
- * @module  SimpleTransactionsGlue
+ * @module  ComplexTransactionsGlue
  * @extends DefaultModelActions
  */
 
@@ -11,23 +11,19 @@ for (var prop in defaultModel) {
   module.exports[prop] = defaultModel[prop];
 }
 
-module.exports.tName = "SimpleTransactionsGlue";
+module.exports.tName = "ComplexTransactionsGlue";
 
 /************************************************************************************************************
  * Initial Create Statements.
  ***********************************************************************************************************/
 module.exports.initialCreates = [ `
-CREATE TABLE SimpleTransactionsGlue (
+CREATE TABLE ComplexTransactionsGlue (
   id                    BIGINT UNSIGNED   AUTO_INCREMENT,
-  uploadId              BIGINT UNSIGNED   DEFAULT 0,
-  originEntry           BIGINT UNSIGNED   NOT NULL,
-  destinationEntry      BIGINT UNSIGNED   NOT NULL,
-  transactionDate       BIGINT UNSIGNED   NOT NULL,
-  transactionNumber     BIGINT UNSIGNED   DEFAULT NULL,
-  reconciled            VARCHAR(255)      DEFAULT "NO",
-  exchange              BIGINT            DEFAULT 0,
-  createdDate           BIGINT UNSIGNED   NOT NULL,
-  createdBy             BIGINT UNSIGNED   NOT NULL,
+  transactionId         BIGINT UNSIGNED   DEFAULT NULL,
+  uploadId              BIGINT UNSIGNED   DEFAULT NULL,
+  ledgerEntryId         BIGINT UNSIGNED   DEFAULT NULL,
+  createdDate           BIGINT UNSIGNED   DEFAULT NULL,
+  createdBy             BIGINT UNSIGNED   DEFAULT NULL,
   modifiedDate          BIGINT UNSIGNED   DEFAULT NULL,
   modifiedBy            BIGINT UNSIGNED   DEFAULT NULL,
   deletedDate           BIGINT UNSIGNED   DEFAULT NULL,
@@ -41,7 +37,7 @@ CREATE TABLE SimpleTransactionsGlue (
  ***********************************************************************************************************/
 module.exports.migrates = [
   {
-    sortFloatIndex: 15,
+    sortFloatIndex: 16,
     query: module.exports.initialCreates[0]
   }
 ];

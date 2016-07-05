@@ -5,7 +5,8 @@
       {
         "vars": "all",
         "args": "after-used",
-        "varsIgnorePattern": "(migrates)|(finalCreates)"
+        "varsIgnorePattern": "(migrates)|(finalCreates)|(Log)",
+        "argsIgnorePattern": "(resolve)|(reject)"
       }
     ]
   }
