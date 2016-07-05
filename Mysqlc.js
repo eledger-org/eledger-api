@@ -106,18 +106,20 @@ module.exports.rawQueryPromise = function(statement) {
     }
   }
 
-  Log.T("\n----" + queryString + "\n");
+  Log.T(statement);
 
   return new Q.Promise(function(resolve, reject) {
     require("./Mysqlc").Mysqlc.query(queryString, values, function(err, rows, fields) {
       if (err) {
-        reject({
+        Log.E({
           "err": err,
           "errstack": err.stack,
           "rows": rows,
           "fields": fields,
           "statement": statement
         });
+
+        reject(err);
       } else {
         let message = "Query success.";
 

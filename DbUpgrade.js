@@ -179,6 +179,7 @@ function initializeModels() {
   let models = Array();
 
   models.push("./models/Accounts");
+  models.push("./models/ComplexTransactionsGlue");
   models.push("./models/DatabaseVersion");
   models.push("./models/LedgerEntries");
   models.push("./models/SimpleTransactionsGlue");
