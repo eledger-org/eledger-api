@@ -43,6 +43,36 @@ module.exports.migrates = [
   {
     sortFloatIndex: 15,
     query: module.exports.initialCreates[0]
+  },
+  {
+    sortFloatIndex: 19,
+    query: `
+ALTER   TABLE   SimpleTransactionsGlue
+CHANGE  COLUMN  transactionNumber
+  transactionId         BIGINT UNSIGNED   DEFAULT NULL;
+`
+  },
+  {
+    sortFloatIndex: 20,
+    query: `
+ALTER TABLE SimpleTransactionsGlue
+DROP  COLUMN transactionDate;
+DROP  COLUMN reconciled;
+DROP  COLUMN exchange;
+`
+  },
+  {
+    sortFloatIndex: 21,
+    query: `
+INSERT INTO Transactions
+(id, createdDate, createdBy, modifiedDate, modifiedBy, deletedDate, deletedBy)
+SELECT
+transactionId,
+MIN(createdDate), MIN(createdBy), MIN(modifiedDate),
+MIN(modifiedBy), MIN(deletedDate), MIN(deletedBy)
+FROM SimpleTransactionsGlue
+GROUP BY transactionId
+`
   }
 ];
 

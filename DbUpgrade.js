@@ -183,6 +183,7 @@ function initializeModels() {
   models.push("./models/DatabaseVersion");
   models.push("./models/LedgerEntries");
   models.push("./models/SimpleTransactionsGlue");
+  models.push("./models/Transactions");
   models.push("./models/UploadReadings");
   models.push("./models/Uploads");
   models.push("./models/Users");
