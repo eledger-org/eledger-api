@@ -23,6 +23,9 @@
     "/users": {
       "$ref": "./api/swagger/paths/Users.json"
     },
+    "/ui-configurations/{type}": {
+      "$ref": "./api/swagger/paths/UIConfigurations.json"
+    },
     "/upload-readings": {
       "$ref": "./api/swagger/paths/UploadReadings.json"
     },

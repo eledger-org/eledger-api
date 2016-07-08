@@ -1,0 +1,31 @@
+{
+  "get": {
+    "parameters": [
+      {
+        "name": "type",
+        "required": true,
+        "in": "path",
+        "type": "string",
+        "description": "The type of the UI elements to get info about."
+      }
+    ],
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "../definitions/responses/UIConfigurations.json"
+        },
+        "description": "Success"
+      },
+      "default": {
+        "description": "Error",
+        "schema": {
+          "$ref": "../definitions/responses/Error.json"
+        }
+      }
+    },
+    "operationId": "get",
+    "description": "Returns the ui configurations matching the type param"
+  },
+  "x-swagger-router-controller": "UIConfigurations"
+}
+
