@@ -1,0 +1,97 @@
+{
+  "name": "Default",
+  "type": "ComplexReceiptMetadata",
+  "uiFields": [
+    {
+      "fields": [
+        {
+          "name": "vendor",
+          "text": "Vendor",
+          "divclass": "col-sm-4"
+        },
+        {
+          "name": "vendorId",
+          "text": "Vendor ID",
+          "divclass": "col-sm-2"
+        },
+        {
+          "name": "city",
+          "text": "City",
+          "divclass": "col-sm-2"
+        },
+        {
+          "name": "state",
+          "text": "State",
+          "divclass": "col-sm-2"
+        },
+        {
+          "name": "zip",
+          "text": "Zip",
+          "divclass": "col-sm-2"
+        }
+      ]
+    },
+    {
+      "fields": [
+        {
+          "name": "address",
+          "text": "Address",
+          "divclass": "col-sm-6"
+        },
+        {
+          "name": "phone",
+          "text": "Phone",
+          "divclass": "col-sm-2"
+        },
+        {
+          "name": "country",
+          "text": "Country",
+          "divclass": "col-sm-4"
+        }
+      ]
+    },
+    {
+      "fields": [
+        {
+          "name": "accountNumber",
+          "text": "Account Number (Last4?)",
+          "divclass": "col-sm-4"
+        },
+        {
+          "name": "cardType",
+          "text": "Card Type",
+          "divclass": "col-sm-4"
+        },
+        {
+          "name": "authCode",
+          "text": "Authorization Code",
+          "divclass": "col-sm-4"
+        }
+      ]
+    },
+    {
+      "fields": [
+        {
+          "name": "vehicle",
+          "text": "Vehicle",
+          "divclass": "col-sm-4"
+        },
+        {
+          "name": "mileage",
+          "text": "Mileage",
+          "divclass": "col-sm-2"
+        }
+      ]
+    },
+    {
+      "fields": [
+        {
+          "name": "tags",
+          "text": "Tags",
+          "divclass": "col-sm-12"
+        }
+      ]
+    }
+  ]
+}
+
