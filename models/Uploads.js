@@ -16,10 +16,13 @@ for (var prop in defaultModel) {
 module.exports.tName = "Uploads";
 
 module.exports.getUnmapped = function() {
+  let CTG = require("./ComplexTransactionsGlue");
   let STG = require("./SimpleTransactionsGlue");
+
   let query = squel.select()
     .from(this.tName)
-    .where("id NOT IN ?", squel.select().field("uploadId").from(STG.tName))
+    .where("id NOT IN ?", squel.select().field("uploadId").from(STG.tName).where("uploadId IS NOT NULL"))
+    .where("id NOT IN ?", squel.select().field("uploadId").from(CTG.tName).where("uploadId IS NOT NULL"))
     .limit(1)
     .toParam();
 

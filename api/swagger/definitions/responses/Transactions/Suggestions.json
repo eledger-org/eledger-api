@@ -1,0 +1,11 @@
+{
+  "properties": {
+    "results": {
+      "description": "The result set"
+    }
+  },
+  "required": [
+    "results"
+  ]
+}
+

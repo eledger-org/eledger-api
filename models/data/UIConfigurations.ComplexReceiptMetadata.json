@@ -7,26 +7,31 @@
         {
           "name": "vendor",
           "text": "Vendor",
+          "type": "autoComplete",
           "divclass": "col-sm-4"
         },
         {
-          "name": "vendorId",
+          "name": "vendorIdentifier",
           "text": "Vendor ID",
+          "type": "autoComplete",
           "divclass": "col-sm-2"
         },
         {
           "name": "city",
           "text": "City",
+          "type": "autoComplete",
           "divclass": "col-sm-2"
         },
         {
           "name": "state",
           "text": "State",
+          "type": "autoComplete",
           "divclass": "col-sm-2"
         },
         {
           "name": "zip",
           "text": "Zip",
+          "type": "autoComplete",
           "divclass": "col-sm-2"
         }
       ]
@@ -36,16 +41,19 @@
         {
           "name": "address",
           "text": "Address",
+          "type": "autoComplete",
           "divclass": "col-sm-6"
         },
         {
           "name": "phone",
           "text": "Phone",
+          "type": "autoComplete",
           "divclass": "col-sm-2"
         },
         {
           "name": "country",
           "text": "Country",
+          "type": "autoComplete",
           "divclass": "col-sm-4"
         }
       ]
@@ -53,18 +61,21 @@
     {
       "fields": [
         {
-          "name": "accountNumber",
+          "name": "last4",
           "text": "Account Number (Last4?)",
+          "type": "autoComplete",
           "divclass": "col-sm-4"
         },
         {
           "name": "cardType",
           "text": "Card Type",
+          "type": "autoComplete",
           "divclass": "col-sm-4"
         },
         {
           "name": "authCode",
           "text": "Authorization Code",
+          "type": "input",
           "divclass": "col-sm-4"
         }
       ]
@@ -74,12 +85,20 @@
         {
           "name": "vehicle",
           "text": "Vehicle",
+          "type": "autoComplete",
           "divclass": "col-sm-4"
         },
         {
           "name": "mileage",
           "text": "Mileage",
+          "type": "input",
           "divclass": "col-sm-2"
+        },
+        {
+          "name": "recipient",
+          "text": "Gift Recipient",
+          "type": "autoComplete",
+          "divclass": "col-sm-4"
         }
       ]
     },
@@ -88,6 +107,8 @@
         {
           "name": "tags",
           "text": "Tags",
+          "type": "autoComplete",
+          "multi": true,
           "divclass": "col-sm-12"
         }
       ]

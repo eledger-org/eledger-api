@@ -20,6 +20,9 @@
     "/simple-transactions": {
       "$ref": "./api/swagger/paths/SimpleTransactions.json"
     },
+    "/transactions/suggestions": {
+      "$ref": "./api/swagger/paths/Transactions/Suggestions.json"
+    },
     "/users": {
       "$ref": "./api/swagger/paths/Users.json"
     },

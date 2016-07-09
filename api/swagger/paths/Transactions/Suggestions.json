@@ -1,0 +1,31 @@
+{
+  "get": {
+    "parameters": [
+      {
+        "name": "requestedSuggestions",
+        "required": true,
+        "in": "query",
+        "type": "string",
+        "description": "The JSON array containing {name:'', count:''} pairs explaining which Transactions fields you want autoComplete suggestions for and how many suggestions per field"
+      }
+    ],
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "../../definitions/responses/Transactions/Suggestions.json"
+        },
+        "description": "Success"
+      },
+      "default": {
+        "description": "Error",
+        "schema": {
+          "$ref": "../../definitions/responses/Error.json"
+        }
+      }
+    },
+    "operationId": "getRequestedSuggestions",
+    "description": "Returns the suggestions for Transactions fields by name"
+  },
+  "x-swagger-router-controller": "Transactions"
+}
+

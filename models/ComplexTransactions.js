@@ -15,12 +15,14 @@
 "use strict";
 
 var _                 = require("underscore");
+var ComplexTransactionsGlue = require("./ComplexTransactionsGlue");
+var date              = require("../util/date");
 var LedgerEntries     = require("./LedgerEntries");
 var Log               = require("node-android-logging");
 var Mysqlc            = require("../Mysqlc");
 var Q                 = require("q");
-var ComplexTransactionsGlue = require("./ComplexTransactionsGlue");
 var squel             = require("squel");
+var Transactions      = require("./Transactions");
 
 var DefaultModelActions = require("./DefaultModelActions");
 
@@ -40,16 +42,19 @@ module.exports.post = function(request) {
 
 module.exports.postBody = function(body) {
   return Q.all(body.results.map(function(complexTransaction) {
-    return Mysqlc.rawQueryPromise(squel.select()
-      .field("IFNULL(MAX(transactionId), 0) + 1", "complexTransactionId")
-      .from(ComplexTransactionsGlue.tName)
+    complexTransaction.metadata.createdDate = date.now();
+    complexTransaction.metadata.createdBy = 0;
+
+    return Mysqlc.rawQueryPromise(squel.insert()
+      .into(Transactions.tName)
+      .setFields(complexTransaction.metadata)
       .toParam()).then(function(result) {
-        let complexTransactionId = result[0].complexTransactionId;
+        let complexTransactionId = result.insertId;
 
         let thisList = [];
 
         complexTransaction.ledgerEntries.forEach(function(ledgerEntry) {
-          ledgerEntry.createdDate = (new Date).getTime() / 1000;
+          ledgerEntry.createdDate = date.now();
           ledgerEntry.createdBy   = 0;
 
           thisList.push({
@@ -60,7 +65,7 @@ module.exports.postBody = function(body) {
 
         complexTransaction.uploads.forEach(function(upload) {
           thisList.push({
-            createdDate: (new Date).getTime() / 1000,
+            createdDate: date.now(),
             createdBy: 0,
             transactionId: complexTransactionId,
             uploadId: upload.id
@@ -78,7 +83,7 @@ module.exports.postBody = function(body) {
               let query = squel.insert()
                 .into(ComplexTransactionsGlue.tName)
                 .setFields({
-                  createdDate: (new Date).getTime() / 1000,
+                  createdDate: date.now(),
                   createdBy: 0,
                   transactionId: complexTransactionId,
                   ledgerEntryId: result.insertId
