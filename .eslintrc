@@ -6,7 +6,7 @@
         "vars": "all",
         "args": "after-used",
         "varsIgnorePattern": "(^migrates$)|(^finalCreates$)|(^Log$)|(^Mysqlc$)|(^squel$)|(^_$)|(Q)",
-        "argsIgnorePattern": "(^resolve$)|(^reject$)"
+        "argsIgnorePattern": "(^resolve$)|(^reject$)|(^request$)|(^response$)"
       }
     ]
   }
