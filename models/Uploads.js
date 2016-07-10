@@ -15,10 +15,10 @@ for (var prop in defaultModel) {
 
 module.exports.getMultiUploadData = function(args) {
   let ctg_le_stats = squel.select()
-    .field("SUM(credit)", "sumCredit")
-    .field("MAX(credit)", "maxCredit")
-    .field("SUM(debit)", "sumDebit")
-    .field("MAX(debit)", "maxDebit")
+    .field("SUM(credit) / 100000", "sumCredit")
+    .field("MAX(credit) / 100000", "maxCredit")
+    .field("SUM(debit) / 100000", "sumDebit")
+    .field("MAX(debit) / 100000", "maxDebit")
     .field("MAX(generalLedgerDate)", "generalLedgerDate")
     .field("MAX(uploadId)", "uploadId")
     .field("transactionId")
@@ -29,8 +29,8 @@ module.exports.getMultiUploadData = function(args) {
   let ctg_le_view = squel.select()
     .field("description")
     .field("account")
-    .field("credit")
-    .field("debit")
+    .field("credit / 100000", "credit")
+    .field("debit / 100000", "debit")
     .field("transactionId")
     .from("ComplexTransactionsGlue")
     .left_join("LedgerEntries ON ledgerEntryId = LedgerEntries.id");

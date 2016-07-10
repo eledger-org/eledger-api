@@ -124,6 +124,10 @@ DROP FUNCTION IF EXISTS getAccountString;
 CREATE FUNCTION getAccountString(accountInput BIGINT UNSIGNED)
   RETURNS TEXT DETERMINISTIC
   BEGIN
+    IF accountInput IS NULL THEN
+      return accountInput;
+    END IF;
+
     SELECT parentAccount, accountShortName
     INTO @pAccount, @accountString
     FROM Accounts
@@ -147,6 +151,10 @@ DROP FUNCTION IF EXISTS getLongAccountString;
 CREATE FUNCTION getLongAccountString(accountInput BIGINT UNSIGNED)
   RETURNS TEXT DETERMINISTIC
   BEGIN
+    IF accountInput IS NULL THEN
+      return accountInput;
+    END IF;
+
     SELECT parentAccount, accountName
     INTO @pAccount, @accountString
     FROM Accounts
