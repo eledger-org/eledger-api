@@ -35,6 +35,15 @@
     "/uploads": {
       "$ref": "./api/swagger/paths/Uploads.json"
     },
+    "/uploads/new-upload": {
+      "$ref": "./api/swagger/paths/uploads/NewUpload.json"
+    },
+    "/uploads/multi-upload-data": {
+      "$ref": "./api/swagger/paths/uploads/MultiUploadData.json"
+    },
+    "/uploads/rotate-file": {
+      "$ref": "./api/swagger/paths/uploads/ProcessImage.json"
+    },
     "/uploads/unmapped": {
       "$ref": "./api/swagger/paths/uploads/unmapped.json"
     }

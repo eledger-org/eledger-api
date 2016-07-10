@@ -13,6 +13,83 @@ for (var prop in defaultModel) {
   module.exports[prop] = defaultModel[prop];
 }
 
+module.exports.getMultiUploadData = function(args) {
+  let ctg_le_stats = squel.select()
+    .field("SUM(credit)", "sumCredit")
+    .field("MAX(credit)", "maxCredit")
+    .field("SUM(debit)", "sumDebit")
+    .field("MAX(debit)", "maxDebit")
+    .field("MAX(generalLedgerDate)", "generalLedgerDate")
+    .field("MAX(uploadId)", "uploadId")
+    .field("transactionId")
+    .from("ComplexTransactionsGlue")
+    .left_join("LedgerEntries ON ledgerEntryId = LedgerEntries.id")
+    .group("transactionId");
+
+  let ctg_le_view = squel.select()
+    .field("description")
+    .field("account")
+    .field("credit")
+    .field("debit")
+    .field("transactionId")
+    .from("ComplexTransactionsGlue")
+    .left_join("LedgerEntries ON ledgerEntryId = LedgerEntries.id");
+
+  let stats = squel.select()
+    .field("ctg.transactionId", "transactionId")
+    .field("ctg.id", "complexTransactionId")
+    .field("ctg.uploadId", "uploadId")
+    .field("max_credit_view.description", "description")
+    .field("cAccount.accountName", "creditAcctName")
+    .field("cAccount.accountShortName", "creditAcctShortName")
+    .field("cAccount.id", "creditAccountId")
+    .field("getLongAccountString(cAccount.id)", "creditAcctString")
+    .field("getAccountString(cAccount.id)", "creditAcctShortString")
+    .field("dAccount.accountName", "debitAcctName")
+    .field("dAccount.accountShorTName", "debitAcctShortName")
+    .field("dAccount.id", "debitAccountId")
+    .field("getLongAccountString(dAccount.id)", "debitAcctString")
+    .field("getAccountString(dAccount.id)", "debitAcctShortString")
+    .field("ctg_le_stats.sumCredit", "sumCredit")
+    .field("ctg_le_stats.sumDebit", "sumDebit")
+    .field("ctg_le_stats.generalLedgerDate", "generalLedgerDate")
+    .from("ComplexTransactionsGlue", "ctg")
+    .left_join(ctg_le_stats, "ctg_le_stats", "ctg_le_stats.transactionId = ctg.transactionId")
+    .left_join(ctg_le_view, "max_credit_view", "ctg_le_stats.transactionId = max_credit_view.transactionId AND ctg_le_stats.maxCredit = max_credit_view.credit")
+    .left_join("Accounts cAccount ON cAccount.id = max_credit_view.account")
+    .left_join(ctg_le_view, "max_debit_view", "ctg_le_stats.transactionId = max_debit_view.transactionId AND ctg_le_stats.maxDebit = max_debit_view.debit")
+    .left_join("Accounts dAccount ON dAccount.id = max_debit_view.account");
+
+  let query = squel.select()
+    .field("Uploads.id", "id")
+    .field("Uploads.filename", "filename")
+    .field("stats.*")
+    .field("IFNULL(stats.generalLedgerDate, Uploads.createdDate)", "generalLedgerDate")
+    .from("Uploads")
+    .left_join(stats, "stats", "stats.uploadId = Uploads.id");
+
+  if (args.id) {
+    query = query.where("Uploads.id = ?", args.id);
+  }
+
+  if (args.orderBy && args.orderDir) {
+    query = query.order(args.orderBy, args.orderDir);
+  } else {
+    query = query.order("generalLedgerDate", false);
+  }
+
+  if (args.limit) {
+    query = query.limit(args.limit);
+  }
+
+  if (args.offset) {
+    query = query.offset(args.offset);
+  }
+
+  return Mysqlc.rawQueryPromise(query.toParam());
+};
+
+
 module.exports.tName = "Uploads";
 
 module.exports.getUnmapped = function() {

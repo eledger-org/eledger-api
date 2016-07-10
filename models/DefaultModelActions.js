@@ -26,6 +26,7 @@ module.exports = {
   DEFAULT_OFFSET: DEFAULT_OFFSET,
   DEFAULT_LIMIT:  DEFAULT_LIMIT,
   select: select,
+  getSelectQuery: getSelectQuery,
   post: post,
   postBody: postBody,
   count: count,
@@ -55,6 +56,12 @@ module.exports = {
  * });
  */
 function select(offset, limit, sortField, sortOrder) {
+  let query = this.getSelectQuery(offset, limit, sortField, sortOrder);
+
+  return Mysqlc.rawQueryPromise(query);
+}
+
+function getSelectQuery(offset, limit, sortField, sortOrder) {
   let query = squel.select()
     .from(this.tName)
     .offset(_().coalesce(offset, this.DEFAULT_OFFSET))
@@ -66,7 +73,7 @@ function select(offset, limit, sortField, sortOrder) {
     query = query.toParam();
   }
 
-  return Mysqlc.rawQueryPromise(query);
+  return query;
 }
 
 function post(request) {

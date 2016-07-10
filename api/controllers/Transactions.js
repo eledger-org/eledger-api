@@ -16,6 +16,8 @@ module.exports = {
 };
 
 function get(request, response) {
+  let queries = Transactions.getSqlQuery();
+
   response.status(500).json({
     result: "ERROR",
     message: "Not yet implemented"

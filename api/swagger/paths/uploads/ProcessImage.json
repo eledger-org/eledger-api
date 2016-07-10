@@ -1,0 +1,38 @@
+{
+  "get": {
+    "parameters": [
+      {
+        "name": "rotateDegrees",
+        "required": false,
+        "in": "query",
+        "type": "string",
+        "description": "Rotate amount"
+      },
+      {
+        "name": "imageTarget",
+        "required": true,
+        "in": "query",
+        "type": "string",
+        "description": "The target image to process"
+      }
+    ],
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "../../definitions/responses/uploads/ProcessImage.json"
+        },
+        "description": "Success"
+      },
+      "default": {
+        "description": "Error",
+        "schema": {
+          "$ref": "../../definitions/responses/Error.json"
+        }
+      }
+    },
+    "operationId": "processImage",
+    "description": "Process an image according to the parameters"
+  },
+  "x-swagger-router-controller": "Uploads"
+}
+

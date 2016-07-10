@@ -1,0 +1,40 @@
+{
+  "get": {
+    "parameters": [
+      {
+        "name": "limit",
+        "required": false,
+        "in": "query",
+        "type": "integer",
+        "default": 20,
+        "description": ""
+      },
+      {
+        "name": "offset",
+        "required": false,
+        "in": "query",
+        "type": "integer",
+        "default": 0,
+        "description": ""
+      }
+    ],
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "../../definitions/responses/uploads/MultiUploadData.json"
+        },
+        "description": "Success"
+      },
+      "default": {
+        "description": "Error",
+        "schema": {
+          "$ref": "../../definitions/responses/Error.json"
+        }
+      }
+    },
+    "operationId": "getMultiUploadData",
+    "description": "Returns the data necessary to populate the multi upload data form"
+  },
+  "x-swagger-router-controller": "Uploads"
+}
+

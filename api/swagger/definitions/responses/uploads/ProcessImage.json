@@ -1,0 +1,11 @@
+{
+  "properties": {
+    "result": {
+      "description": "The result of the process OK|ERROR"
+    }
+  },
+  "required": [
+    "result"
+  ]
+}
+

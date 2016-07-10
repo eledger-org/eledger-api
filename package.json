@@ -12,12 +12,14 @@
     "config": "^1.21.0",
     "eledger-web": "github:eledger-org/eledger-web",
     "express": "^4.12.3",
+    "lwip": "0.0.9",
     "morgan": "^1.7.0",
     "mysql": "^2.11.1",
     "node-android-logging": ">1.0.0",
     "q": "^1.4.1",
     "squel": "^5.3.2",
-    "swagger-tools": "^0.10.1"
+    "swagger-tools": "^0.10.1",
+    "uuid": "^2.0.2"
   },
   "devDependencies": {
     "chai": "^3.5.0",

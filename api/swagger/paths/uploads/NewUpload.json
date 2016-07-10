@@ -1,0 +1,32 @@
+{
+  "post": {
+    "parameters": [
+      {
+        "name": "file",
+        "required": true,
+        "in": "formData",
+        "type": "file",
+        "description": "The file to upload"
+      }
+    ],
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "../../definitions/responses/uploads/NewUpload.json"
+        },
+        "description": "Success"
+      },
+      "default": {
+        "description": "Error",
+        "schema": {
+          "$ref": "../../definitions/responses/Error.json"
+        }
+      }
+    },
+    "consumes": ["multipart/form-data"],
+    "operationId": "newUpload",
+    "description": "Uploads a new file and returns the multi upload data for now...  TODO: The return data should be configurable in the future."
+  },
+  "x-swagger-router-controller": "Uploads"
+}
+

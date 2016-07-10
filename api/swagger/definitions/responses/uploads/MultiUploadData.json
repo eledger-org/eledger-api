@@ -1,0 +1,14 @@
+{
+  "properties": {
+    "results": {
+      "description": "The result set"
+    },
+    "length": {
+      "description": "The length of the result set"
+    }
+  },
+  "required": [
+    "results"
+  ]
+}
+
